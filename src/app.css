@@ -1,0 +1,263 @@
+body {
+  margin: 0;
+  --foreground: white;
+  --background: rgb(0, 169, 157);
+  --text-color: #333;
+  --editor-bg: white;
+  --content-bg: white;
+  --border-color: #999999;
+  --resizer-color: #f0f0f0;
+  --resizer-hover: rgb(0, 169, 157);
+  --loading-color: #ccc;
+}
+
+body.dark-mode {
+  --foreground: #ddd;
+  --background: rgb(0, 110, 102);
+  --text-color: #eee;
+  --editor-bg: #1e1e1e;
+  --content-bg: #252525;
+  --border-color: #555;
+  --resizer-color: #444;
+  --resizer-hover: rgb(0, 169, 157);
+  --loading-color: #555;
+}
+
+code {
+  border: 1px solid var(--foreground);
+  border-radius: 6px;
+  padding: 0 4px;
+  color: var(--foreground);
+}
+
+#app {
+  height: 100vh;
+  width: 100vw;
+}
+
+#header {
+  padding: 0 10px;
+  font-size: 24px;
+  line-height: 48px;
+  font-weight: bold;
+  background-color: var(--background);
+  font-style: italic;
+  color: var(--foreground);
+  user-select: none;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.github-link {
+  margin-right: 10px;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.github-link a {
+  text-decoration: none;
+}
+
+.github-text {
+  color: var(--foreground);
+  font-size: 16px;
+  font-weight: normal;
+  font-style: normal;
+  transition: opacity 0.3s ease;
+}
+
+.github-text:hover {
+  opacity: 0.8;
+  text-decoration: underline;
+}
+
+.mode-toggle {
+  margin-left: 15px;
+  cursor: pointer;
+  font-size: 20px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: transform 0.3s ease;
+  position: relative;
+  height: 24px;
+  width: 24px;
+}
+
+.mode-toggle:hover {
+  transform: scale(1.1);
+}
+
+.mode-toggle .icon-sun,
+.mode-toggle .icon-moon {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 24px;
+  height: 24px;
+  transition: opacity 0.3s ease, transform 0.5s ease;
+  color: var(--foreground);
+}
+
+.mode-toggle .icon-sun {
+  opacity: 0;
+  transform: rotate(-30deg) scale(0.8);
+}
+
+.mode-toggle .icon-moon {
+  opacity: 1;
+  transform: rotate(0) scale(1);
+}
+
+body.dark-mode .mode-toggle .icon-sun {
+  opacity: 1;
+  transform: rotate(0) scale(1);
+}
+
+body.dark-mode .mode-toggle .icon-moon {
+  opacity: 0;
+  transform: rotate(30deg) scale(0.8);
+}
+
+#body {
+  box-sizing: border-box;
+  padding: 10px;
+  height: calc(100% - 48px);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  background-color: var(--content-bg);
+  color: var(--text-color);
+}
+
+#content {
+  flex: 0.618;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-around;
+  height: 100%;
+  box-sizing: border-box;
+  padding: 10px 0 10px 10px;
+  font-size: 18px;
+  line-height: 36px;
+  min-width: 200px;
+}
+
+#resizer {
+  width: 6px;
+  cursor: col-resize;
+  background-color: var(--resizer-color);
+  margin: 0 8px;
+  border-radius: 3px;
+  height: 100%;
+}
+
+#resizer:hover {
+  background-color: var(--resizer-hover);
+}
+
+#file-select-handler {
+  margin: 0;
+  text-align: center;
+  border-radius: 8px;
+  background-color: var(--background);
+  color: var(--foreground);
+  cursor: pointer;
+  user-select: none;
+}
+
+#input {
+  flex: 1;
+  border: 1px dashed var(--border-color);
+  font-size: 16px;
+}
+
+#input:focus {
+  outline: 1px solid #999999;
+}
+
+#result-container {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  height: 100%;
+  min-width: 300px;
+}
+
+#result {
+  flex: 1;
+  position: relative;
+  border: 1px dashed var(--border-color);
+  margin-bottom: 10px;
+}
+
+#convert {
+  flex: 0 0 auto;
+  margin: 0;
+  padding: 0;
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+  gap: 12px;
+  height: 50px;
+}
+
+.convert-option {
+  padding: 8px 12px;
+  cursor: pointer;
+  border: none;
+  border-radius: 8px;
+  text-align: center;
+  font-size: 20px;
+  font-weight: bold;
+  transition: all .3s ease;
+  user-select: none;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  flex: 1;
+  justify-content: center;
+}
+
+.download-text {
+  color: var(--background);
+  transition: color .3s ease;
+  font-size: 16px;
+}
+
+.cursor-icon {
+  transition: transform .3s ease;
+  transform: rotate(0);
+}
+
+.convert-option:hover {
+  background-color: var(--background);
+}
+
+.convert-option:hover .cursor-icon {
+  transform: rotate(90deg);
+}
+
+.convert-option:hover .download-text {
+  color: var(--foreground);
+}
+
+.loading {
+  pointer-events: none;
+  background: linear-gradient(45deg,
+      var(--loading-color) 0, var(--loading-color) 25%, transparent 25%, transparent 50%,
+      var(--loading-color) 50%, var(--loading-color) 75%, transparent 75%, transparent);
+  background-size: 10px 10px;
+}
+
+#result.loading::after {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  content: 'Loading render engine...';
+  font-size: 36px;
+  color: black;
+}
