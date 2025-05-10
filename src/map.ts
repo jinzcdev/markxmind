@@ -22,7 +22,11 @@ let currentMapInstance: any = null;
 
 export function renderMapByString(content: string): Promise<void> {
   const result = document.getElementById('result') as HTMLDivElement
-  result.innerHTML = ''
+
+  if (!content) {
+    result.innerHTML = ''
+    return Promise.resolve()
+  }
 
   return new Promise((resolve, reject) => {
     const model = createMapByXMindMark(content)
