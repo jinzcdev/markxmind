@@ -155,15 +155,29 @@ function initView() {
   const convertToPNG = document.getElementById('convert-png') as HTMLDivElement
 
   let timeoutToken: ReturnType<typeof setTimeout>
+  let isComposing = false
 
-  input.addEventListener('keydown', (e) => {
+  input.addEventListener('compositionstart', () => {
+    isComposing = true
+  })
+
+  input.addEventListener('compositionend', () => {
+    isComposing = false
     clearTimeout(timeoutToken)
     timeoutToken = setTimeout(() => {
       const content = globalThis.editor?.getValue() ?? ''
-      if (content.length > 0) {
-        renderMapByString(content)
-      }
-    }, 500);
+      renderMapByString(content)
+    }, 500)
+  })
+
+  input.addEventListener('keydown', () => {
+    if (isComposing) return
+
+    clearTimeout(timeoutToken)
+    timeoutToken = setTimeout(() => {
+      const content = globalThis.editor?.getValue() ?? ''
+      renderMapByString(content)
+    }, 500)
   })
 
   fileSelect.addEventListener('input', async () => {
