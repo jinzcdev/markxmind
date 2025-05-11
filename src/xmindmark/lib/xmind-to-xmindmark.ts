@@ -1,5 +1,5 @@
 import JSZip from 'jszip'
-import { BoundaryModel, RelationshipModel, SheetModel, SummaryModel, TopicModel, TopicType } from '../types'
+import { type BoundaryModel, type RelationshipModel, type SheetModel, type SummaryModel, type TopicModel, type TopicType } from '../types'
 
 export type XMindMarkContent = string
 

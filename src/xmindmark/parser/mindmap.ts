@@ -1,5 +1,5 @@
 import { nanoid } from 'nanoid'
-import { SheetModel } from '../types'
+import { type SheetModel } from '../types'
 
 const UUID = nanoid
 export const setTheme = (mapObject: any) => {

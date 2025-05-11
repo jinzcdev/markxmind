@@ -1,6 +1,6 @@
 import { createMapByXMindMark } from '../parser/mindmark'
 import JSZip from 'jszip'
-import { SheetModel } from '../types'
+import { type SheetModel } from '../types'
 
 function createContentJson(...maps: SheetModel[]) {
   return JSON.stringify([...maps])
