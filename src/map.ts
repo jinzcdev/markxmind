@@ -1,4 +1,4 @@
-import { createMapByXMindMark } from 'xmindmark/dist/src/parser/mindmark'
+import { createMapByXMindMark } from './xmindmark'
 import { lightTheme, darkTheme } from './theme'
 
 export function applyMapTheme(sb: any, isDarkMode: boolean) {

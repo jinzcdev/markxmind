@@ -1,6 +1,7 @@
-import { parseXMindMarkToXMindFile } from 'xmindmark'
+import { parseXMindMarkToXMindFile } from './xmindmark'
 import { downloadFile, loadFileAsText } from './loader'
 import { renderMapByString, updateMapTheme, exportMapToImage } from './map'
+import { defaultXMindMark } from './common/constant'
 
 let openedFileName: string = ''
 
@@ -30,6 +31,7 @@ function initEditor() {
     const isDarkMode = document.body.classList.contains('dark-mode');
 
     globalThis.editor = globalThis.monaco.editor.create(input, {
+      value: defaultXMindMark,
       language: 'markdown',
       wordWrap: 'off',
       minimap: { enabled: false },
