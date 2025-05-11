@@ -20,7 +20,7 @@ function addLine(line: string, status: any) {
     let currentLevel = status.levels.find(l => l.indent == indent)
 
     let topicId = currentLevel.parent.summaries.find(b => b.name == name).topicId
-    let topicObject = currentLevel.parent.children.summary.find(t => t.id == topicId)
+    let topicObject = currentLevel.parent.children.summary.find(t => t.id == topicId) || {}
     topicObject.title = line
 
     /// process [1]
