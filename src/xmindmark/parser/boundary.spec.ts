@@ -1,10 +1,9 @@
-import { createMapByXMindMark } from './mindmark'
-import { describe, expect, it } from 'vitest'
+import { describe, expect, it } from "vitest"
+import { createMapByXMindMark } from "./mindmark"
 
-describe('3.1 - Boundary', () => {
-
-    it('Basic Boundary', () => {
-        let map = createMapByXMindMark(`
+describe("3.1 - Boundary", () => {
+    it("Basic Boundary", () => {
+        const map = createMapByXMindMark(`
 
 central topic
 
@@ -13,12 +12,12 @@ central topic
 
         `)
 
-        let boundary = map.rootTopic.boundaries[0]
-        expect(boundary.range).toBe('(0,1)')
+        const boundary = map.rootTopic.boundaries[0]
+        expect(boundary.range).toBe("(0,1)")
     })
 
-    it('Boundary with numbers', () => {
-        let map = createMapByXMindMark(`
+    it("Boundary with numbers", () => {
+        const map = createMapByXMindMark(`
 
 central topic
 
@@ -27,12 +26,12 @@ central topic
 
         `)
 
-        let boundary = map.rootTopic.boundaries[0]
-        expect(boundary.range).toBe('(0,1)')
+        const boundary = map.rootTopic.boundaries[0]
+        expect(boundary.range).toBe("(0,1)")
     })
 
-    it('Multi Boundaries', () => {
-        let map = createMapByXMindMark(`
+    it("Multi Boundaries", () => {
+        const map = createMapByXMindMark(`
 
 central topic
 
@@ -42,17 +41,15 @@ central topic
         `)
 
         let boundary = map.rootTopic.boundaries[0]
-        expect(boundary.range).toBe('(0,0)')
+        expect(boundary.range).toBe("(0,0)")
         boundary = map.rootTopic.boundaries[1]
-        expect(boundary.range).toBe('(1,1)')
+        expect(boundary.range).toBe("(1,1)")
     })
-
 })
 
-describe('3.2 - Boundary with Title', () => {
-
-    it('Basic Boundary', () => {
-        let map = createMapByXMindMark(`
+describe("3.2 - Boundary with Title", () => {
+    it("Basic Boundary", () => {
+        const map = createMapByXMindMark(`
 
 central topic
 
@@ -62,13 +59,13 @@ central topic
 
         `)
 
-        let boundary = map.rootTopic.boundaries[0]
-        expect(boundary.range).toBe('(0,1)')
-        expect(boundary.title).toBe('title 1')
+        const boundary = map.rootTopic.boundaries[0]
+        expect(boundary.range).toBe("(0,1)")
+        expect(boundary.title).toBe("title 1")
     })
 
-    it('Boundary with numbers', () => {
-        let map = createMapByXMindMark(`
+    it("Boundary with numbers", () => {
+        const map = createMapByXMindMark(`
 
 central topic
 
@@ -78,13 +75,13 @@ central topic
 
         `)
 
-        let boundary = map.rootTopic.boundaries[0]
-        expect(boundary.range).toBe('(0,1)')
-        expect(boundary.title).toBe('title 2')
+        const boundary = map.rootTopic.boundaries[0]
+        expect(boundary.range).toBe("(0,1)")
+        expect(boundary.title).toBe("title 2")
     })
 
-    it('Multi Boundaries', () => {
-        let map = createMapByXMindMark(`
+    it("Multi Boundaries", () => {
+        const map = createMapByXMindMark(`
 
 central topic
 
@@ -96,15 +93,15 @@ central topic
         `)
 
         let boundary = map.rootTopic.boundaries[0]
-        expect(boundary.range).toBe('(0,0)')
-        expect(boundary.title).toBe('title 1')
+        expect(boundary.range).toBe("(0,0)")
+        expect(boundary.title).toBe("title 1")
         boundary = map.rootTopic.boundaries[1]
-        expect(boundary.range).toBe('(1,1)')
-        expect(boundary.title).toBe('title 2')
+        expect(boundary.range).toBe("(1,1)")
+        expect(boundary.title).toBe("title 2")
     })
 
-    it('Boundaries with subtopics', () => {
-        let map = createMapByXMindMark(`
+    it("Boundaries with subtopics", () => {
+        const map = createMapByXMindMark(`
 
 central topic
 
@@ -115,10 +112,9 @@ central topic
 
         `)
 
-        let topic = map.rootTopic.children.attached[0]
-        let boundary = topic.boundaries[0]
-        expect(boundary.range).toBe('(0,1)')
-        expect(boundary.title).toBe('title 1')
+        const topic = map.rootTopic.children.attached[0]
+        const boundary = topic.boundaries[0]
+        expect(boundary.range).toBe("(0,1)")
+        expect(boundary.title).toBe("title 1")
     })
-
 })

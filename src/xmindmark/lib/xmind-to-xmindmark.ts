@@ -1,257 +1,347 @@
-import JSZip from 'jszip'
-import { type BoundaryModel, type RelationshipModel, type SheetModel, type SummaryModel, type TopicModel, type TopicType } from '../types'
+import JSZip from "jszip"
+import {
+    type BoundaryModel,
+    type RelationshipModel,
+    type SheetModel,
+    type SummaryModel,
+    type TopicModel,
+    type TopicType
+} from "../types"
 
 export type XMindMarkContent = string
 
 type Identifier = { readonly identifier: string }
 type Boundary = BoundaryModel & Identifier
-type Summary = SummaryModel & Identifier & {
-  title: string
-}
+type Summary = SummaryModel &
+    Identifier & {
+        title: string
+    }
 type Relationship = RelationshipModel & Identifier
 type SheetScope = {
-  readonly relationships: Relationship[]
+    readonly relationships: Relationship[]
 }
 type BranchScope = SheetScope & {
-  readonly depth: number
-  readonly boundaries: Boundary[]
-  readonly summaries: Summary[]
+    readonly depth: number
+    readonly boundaries: Boundary[]
+    readonly summaries: Summary[]
 }
 type TopicScope = BranchScope & {
-  readonly id: string
-  readonly labels: string[]
-  readonly title: string
-  readonly order: number // starts from 0, like index
-  readonly type: TopicType | 'root'
+    readonly id: string
+    readonly labels: string[]
+    readonly title: string
+    readonly order: number // starts from 0, like index
+    readonly type: TopicType | "root"
 }
 type TopicScopeObserver = (scope: TopicScope) => void
 type BranchScopeObserver = (scope: BranchScope) => void
 type ClosedRange = `(${number},${number})`
 
-export async function parseXMindToXMindMarkFile(xmindFile: ArrayBuffer, targetSheetOrder: number = 0): Promise<XMindMarkContent> {
+export async function parseXMindToXMindMarkFile(
+    xmindFile: ArrayBuffer,
+    targetSheetOrder: number = 0
+): Promise<XMindMarkContent> {
+    const sheets = await tryExtractContentJSON(xmindFile)
 
-  const sheets = await tryExtractContentJSON(xmindFile)
-
-  return sheets && sheets[targetSheetOrder]
-    ? xmindMarkFrom(sheets[targetSheetOrder])
-    : ''
+    return sheets && sheets[targetSheetOrder]
+        ? xmindMarkFrom(sheets[targetSheetOrder])
+        : ""
 }
 
-function xmindMarkFrom({ rootTopic, relationships }: SheetModel): XMindMarkContent {
-  const lines: string[] = []
+function xmindMarkFrom({
+    rootTopic,
+    relationships
+}: SheetModel): XMindMarkContent {
+    const lines: string[] = []
 
-  const topicScopeObserver: TopicScopeObserver = (scope) => {
-    const indent = makeIndentOfLine(scope)
-    const prefix = makePrefixOfLine(scope)
-    const typeIdentifier = makeTypeIdentifierOfLine(scope)
-    const label = makeLabelOfLine(scope)
-    const title = makeTitleOfLine(scope)
-    const extensionIdentifier = makeExtensionIdentifierOfLine(scope)
+    const topicScopeObserver: TopicScopeObserver = (scope) => {
+        const indent = makeIndentOfLine(scope)
+        const prefix = makePrefixOfLine(scope)
+        const typeIdentifier = makeTypeIdentifierOfLine(scope)
+        const label = makeLabelOfLine(scope)
+        const title = makeTitleOfLine(scope)
+        const extensionIdentifier = makeExtensionIdentifierOfLine(scope)
 
-    const line = indent.concat(...[
-      prefix,
-      typeIdentifier.length > 0 ? `${typeIdentifier}: ` : '',
-      // label.length > 0 ? `${label} ` : '',
-      title,
-      extensionIdentifier,
-    ])
+        const line = indent.concat(
+            ...[
+                prefix,
+                typeIdentifier.length > 0 ? `${typeIdentifier}: ` : "",
+                // label.length > 0 ? `${label} ` : '',
+                title,
+                extensionIdentifier
+            ]
+        )
 
-    lines.push(line)
-  }
+        lines.push(line)
+    }
 
-  const branchScopeObserver: BranchScopeObserver = (scope) => {
-    scope.boundaries.forEach(boundary => {
-      if (boundary.title) {
-        lines.push(makeBoundaryTitleLine(scope, boundary))
-      }
-    })
-  }
+    const branchScopeObserver: BranchScopeObserver = (scope) => {
+        scope.boundaries.forEach((boundary) => {
+            if (boundary.title) {
+                lines.push(makeBoundaryTitleLine(scope, boundary))
+            }
+        })
+    }
 
-  traverseBranch(rootTopic, topicScopeObserver, branchScopeObserver, relationships)
-  lines.push('') // append last empty line
-  return lines.join('\n')
+    traverseBranch(
+        rootTopic,
+        topicScopeObserver,
+        branchScopeObserver,
+        relationships
+    )
+    lines.push("") // append last empty line
+    return lines.join("\n")
 }
 
 function traverseBranch(
-  rootTopic: TopicModel,
-  onTopicScope: TopicScopeObserver,
-  onBranchScope: BranchScopeObserver,
-  relationships: RelationshipModel[] = [],
-  index?: number,
-  prevBranchScope?: BranchScope,
-  type?: TopicType
+    rootTopic: TopicModel,
+    onTopicScope: TopicScopeObserver,
+    onBranchScope: BranchScopeObserver,
+    relationships: RelationshipModel[] = [],
+    index?: number,
+    prevBranchScope?: BranchScope,
+    type?: TopicType
 ) {
-  const branchScope: BranchScope = {
-    depth: prevBranchScope?.depth ?? 0,
-    boundaries: prevBranchScope?.boundaries ?? makeIdentifyBoundaries(rootTopic),
-    summaries: prevBranchScope?.summaries ?? makeIdentifySummaries(rootTopic),
-    relationships: prevBranchScope?.relationships ?? makeIdentifyRelationships(relationships)
-  }
+    const branchScope: BranchScope = {
+        depth: prevBranchScope?.depth ?? 0,
+        boundaries:
+            prevBranchScope?.boundaries ?? makeIdentifyBoundaries(rootTopic),
+        summaries:
+            prevBranchScope?.summaries ?? makeIdentifySummaries(rootTopic),
+        relationships:
+            prevBranchScope?.relationships ??
+            makeIdentifyRelationships(relationships)
+    }
 
-  const topicScope: TopicScope = {
-    id: rootTopic.id,
-    labels: rootTopic.labels ?? [],
-    title: rootTopic.title ?? '',
-    order: index ?? 0,
-    type: type ?? 'root',
-    ...branchScope
-  }
+    const topicScope: TopicScope = {
+        id: rootTopic.id,
+        labels: rootTopic.labels ?? [],
+        title: rootTopic.title ?? "",
+        order: index ?? 0,
+        type: type ?? "root",
+        ...branchScope
+    }
 
-  onTopicScope(topicScope)
+    onTopicScope(topicScope)
 
-  const currentBranchScope: BranchScope = {
-    depth: branchScope.depth + 1,
-    boundaries: makeIdentifyBoundaries(rootTopic),
-    summaries: makeIdentifySummaries(rootTopic),
-    relationships: branchScope.relationships
-  }
+    const currentBranchScope: BranchScope = {
+        depth: branchScope.depth + 1,
+        boundaries: makeIdentifyBoundaries(rootTopic),
+        summaries: makeIdentifySummaries(rootTopic),
+        relationships: branchScope.relationships
+    }
 
-  rootTopic.children?.attached?.forEach((child, i) => traverseBranch(child, onTopicScope, onBranchScope, relationships, i, currentBranchScope, 'attached'))
-  rootTopic.children?.summary?.forEach((child, i) => traverseBranch(child, onTopicScope, onBranchScope, relationships, i, currentBranchScope, 'summary'))
+    rootTopic.children?.attached?.forEach((child, i) =>
+        traverseBranch(
+            child,
+            onTopicScope,
+            onBranchScope,
+            relationships,
+            i,
+            currentBranchScope,
+            "attached"
+        )
+    )
+    rootTopic.children?.summary?.forEach((child, i) =>
+        traverseBranch(
+            child,
+            onTopicScope,
+            onBranchScope,
+            relationships,
+            i,
+            currentBranchScope,
+            "summary"
+        )
+    )
 
-  onBranchScope(currentBranchScope)
+    onBranchScope(currentBranchScope)
 }
 
 ///////////////////////////////////////////
-// 
+//
 // File loader
 //
 
-async function tryExtractContentJSON(file: ArrayBuffer): Promise<SheetModel[] | null> {
-  try {
-    const zip = await new JSZip().loadAsync(file)
-    const contentJSON = await zip.file('content.json')?.async('string')
+async function tryExtractContentJSON(
+    file: ArrayBuffer
+): Promise<SheetModel[] | null> {
+    try {
+        const zip = await new JSZip().loadAsync(file)
+        const contentJSON = await zip.file("content.json")?.async("string")
 
-    return JSON.parse(contentJSON ?? '') as SheetModel[]
-  } catch (e) {
-    console.error('Not valid .xmind file.')
-    return null
-  }
+        return JSON.parse(contentJSON ?? "") as SheetModel[]
+    } catch (e) {
+        console.error("Not valid .xmind file.")
+        return null
+    }
 }
 
 ///////////////////////////////////////////
-// 
+//
 // Converters
 //
 
 function isOrderInsideRange(range: ClosedRange, order: number): boolean {
-  const [start, end] = range.replace(/[\(|\)]/g, '')
-    .split(',')
-    .map(s => parseInt(s.trim()))
+    const [start, end] = range
+        .replace(/[(|)]/g, "")
+        .split(",")
+        .map((s) => parseInt(s.trim()))
 
-  return start <= end && start <= order && order <= end
+    return start <= end && start <= order && order <= end
 }
 
-function makeIndentOfLine({ depth }: Pick<TopicScope, 'depth'>): string {
-  return Array.from({ length: depth }).reduce<string>(prevIndent => prevIndent.concat('    '), '')
+function makeIndentOfLine({ depth }: Pick<TopicScope, "depth">): string {
+    return Array.from({ length: depth }).reduce<string>(
+        (prevIndent) => prevIndent.concat("    "),
+        ""
+    )
 }
 
 function makePrefixOfLine({ depth, type }: TopicScope): string {
-  if (type === 'attached') return depth > 0 ? '- ' : ''
+    if (type === "attached") return depth > 0 ? "- " : ""
 
-  return ''
+    return ""
 }
 
 function makeTypeIdentifierOfLine({ type, id, summaries }: TopicScope): string {
-  if (type === 'summary') {
-    const summary = summaries.find(summary => summary.topicId === id)
-    return summary
-      ? `[${summary.identifier}]`
-      : ''
-  }
+    if (type === "summary") {
+        const summary = summaries.find((summary) => summary.topicId === id)
+        return summary ? `[${summary.identifier}]` : ""
+    }
 
-  return ''
+    return ""
 }
 
 function makeLabelOfLine({ labels }: TopicScope): string {
-  return labels.length > 0 ? `[${labels.map(v => v.trim()).join(', ')}]` : ''
+    return labels.length > 0
+        ? `[${labels.map((v) => v.trim()).join(", ")}]`
+        : ""
 }
 
 function makeTitleOfLine({ title }: TopicScope): string {
-  return title
+    return title
 }
 
-function makeRelationshipIdentifierOfLine({ relationships, id }: TopicScope): string {
-  const relationshipBegin = relationships.find(({ end1Id }) => end1Id === id)
-  const relationshipEnd = relationships.find(({ end2Id }) => end2Id === id)
+function makeRelationshipIdentifierOfLine({
+    relationships,
+    id
+}: TopicScope): string {
+    const relationshipBegin = relationships.find(({ end1Id }) => end1Id === id)
+    const relationshipEnd = relationships.find(({ end2Id }) => end2Id === id)
 
-  if (relationshipBegin) return `[^${relationshipBegin.identifier}]`
-  if (relationshipEnd) return `[${relationshipEnd.identifier}]`
-  return ''
+    if (relationshipBegin) return `[^${relationshipBegin.identifier}]`
+    if (relationshipEnd) return `[${relationshipEnd.identifier}]`
+    return ""
 }
 
 function makeBoundaryIdenfitierOfLine(scope: TopicScope): string {
-  const { boundaries, type } = scope
-  if (type !== 'attached' || !boundaries || boundaries.length === 0) return ''
+    const { boundaries, type } = scope
+    if (type !== "attached" || !boundaries || boundaries.length === 0) return ""
 
-  if (boundaries.length === 1) return isOrderInsideRange(boundaries[0].range, scope.order) ? `[${boundaries[0].identifier}]` : ''
-  else return boundaries.reduce(
-    (str, { range, identifier }) => isOrderInsideRange(range, scope.order)
-      ? `${str}[${identifier}]`
-      : str,
-    ''
-  )
+    if (boundaries.length === 1)
+        return isOrderInsideRange(boundaries[0].range, scope.order)
+            ? `[${boundaries[0].identifier}]`
+            : ""
+    else
+        return boundaries.reduce(
+            (str, { range, identifier }) =>
+                isOrderInsideRange(range, scope.order)
+                    ? `${str}[${identifier}]`
+                    : str,
+            ""
+        )
 }
 
 function makeSummaryIdentifierOfLine(scope: TopicScope): string {
-  const { summaries, type } = scope
-  if (type === 'root' || type === 'summary' || !summaries || summaries.length === 0) return ''
+    const { summaries, type } = scope
+    if (
+        type === "root" ||
+        type === "summary" ||
+        !summaries ||
+        summaries.length === 0
+    )
+        return ""
 
-  if (summaries.length === 1) return isOrderInsideRange(summaries[0].range, scope.order) ? `[${summaries[0].identifier}]` : ''
-  else return summaries.reduce(
-    (str, { range, identifier }) => isOrderInsideRange(range, scope.order)
-      ? `${str}[${identifier}]`
-      : str,
-    ''
-  )
+    if (summaries.length === 1)
+        return isOrderInsideRange(summaries[0].range, scope.order)
+            ? `[${summaries[0].identifier}]`
+            : ""
+    else
+        return summaries.reduce(
+            (str, { range, identifier }) =>
+                isOrderInsideRange(range, scope.order)
+                    ? `${str}[${identifier}]`
+                    : str,
+            ""
+        )
 }
 
 function makeExtensionIdentifierOfLine(scope: TopicScope): string {
-  const relationshipIdentifier = makeRelationshipIdentifierOfLine(scope)
-  const boundaryIdentifier = makeBoundaryIdenfitierOfLine(scope)
-  const summaryIdentifier = makeSummaryIdentifierOfLine(scope)
+    const relationshipIdentifier = makeRelationshipIdentifierOfLine(scope)
+    const boundaryIdentifier = makeBoundaryIdenfitierOfLine(scope)
+    const summaryIdentifier = makeSummaryIdentifierOfLine(scope)
 
-  return relationshipIdentifier || boundaryIdentifier || summaryIdentifier
-    ? ` ${relationshipIdentifier}${boundaryIdentifier}${summaryIdentifier}`
-    : ''
+    return relationshipIdentifier || boundaryIdentifier || summaryIdentifier
+        ? ` ${relationshipIdentifier}${boundaryIdentifier}${summaryIdentifier}`
+        : ""
 }
 
-function makeBoundaryTitleLine(scope: BranchScope, { identifier, title }: Boundary): string {
-  return `${makeIndentOfLine(scope)}[${identifier}]: ${title}`
+function makeBoundaryTitleLine(
+    scope: BranchScope,
+    { identifier, title }: Boundary
+): string {
+    return `${makeIndentOfLine(scope)}[${identifier}]: ${title}`
 }
 
 function makeIdentifyBoundaries(topic: TopicModel): Boundary[] {
-  if (!topic.boundaries || topic.boundaries.length === 0) return []
+    if (!topic.boundaries || topic.boundaries.length === 0) return []
 
-  if (topic.boundaries.length === 1) return [{ ...topic.boundaries[0], identifier: 'B' }]
+    if (topic.boundaries.length === 1)
+        return [{ ...topic.boundaries[0], identifier: "B" }]
 
-  return topic.boundaries.map((boundary, i) => ({ ...boundary, identifier: `B${i + 1}` }))
+    return topic.boundaries.map((boundary, i) => ({
+        ...boundary,
+        identifier: `B${i + 1}`
+    }))
 }
 
 function makeIdentifySummaries(topic: TopicModel): Summary[] {
-  if (
-    topic.summaries
-    && topic.summaries.length > 0
-    && topic.children
-    && (Array.isArray(topic.children?.summary) && topic.children.summary.length > 0)
-    && topic.children.summary.length === topic.summaries.length
-  ) {
-    const summaries = topic.summaries.map((summary, i) => {
-      const title = topic.children!.summary?.find(({ id }) => id === summary.topicId)?.title
+    if (
+        topic.summaries &&
+        topic.summaries.length > 0 &&
+        topic.children &&
+        Array.isArray(topic.children?.summary) &&
+        topic.children.summary.length > 0 &&
+        topic.children.summary.length === topic.summaries.length
+    ) {
+        const summaries = topic.summaries
+            .map((summary, i) => {
+                const title = topic.children!.summary?.find(
+                    ({ id }) => id === summary.topicId
+                )?.title
 
-      return typeof title !== 'undefined'
-        ? { ...summary, title, identifier: `S${i + 1}` }
-        : null
-    }).filter((summary): summary is Summary => !!summary)
+                return typeof title !== "undefined"
+                    ? { ...summary, title, identifier: `S${i + 1}` }
+                    : null
+            })
+            .filter((summary): summary is Summary => !!summary)
 
-    if (summaries.length === 1) return summaries.map(summary => ({ ...summary, identifier: 'S' }))
+        if (summaries.length === 1)
+            return summaries.map((summary) => ({
+                ...summary,
+                identifier: "S"
+            }))
 
-    return summaries
-  }
+        return summaries
+    }
 
-  return []
+    return []
 }
 
-function makeIdentifyRelationships(relationships: RelationshipModel[]): Relationship[] {
-  return relationships.map((relationship, i) => ({ ...relationship, identifier: `${i + 1}` }))
+function makeIdentifyRelationships(
+    relationships: RelationshipModel[]
+): Relationship[] {
+    return relationships.map((relationship, i) => ({
+        ...relationship,
+        identifier: `${i + 1}`
+    }))
 }

@@ -1,10 +1,9 @@
-import { createMapByXMindMark } from './mindmark'
 import { describe, expect, it } from "vitest"
+import { createMapByXMindMark } from "./mindmark"
 
-describe('4.1 - Summary', () => {
-
-    it('Basic Summary', () => {
-        let map = createMapByXMindMark(`
+describe("4.1 - Summary", () => {
+    it("Basic Summary", () => {
+        const map = createMapByXMindMark(`
 
 central topic
 
@@ -14,16 +13,15 @@ central topic
 
         `)
 
-        let summaryTopic = map.rootTopic.children.summary[0]
-        expect(summaryTopic.title).toBe('summary topic')
-        let summary = map.rootTopic.summaries[0]
-        expect(summary.range).toBe('(0,1)')
+        const summaryTopic = map.rootTopic.children.summary[0]
+        expect(summaryTopic.title).toBe("summary topic")
+        const summary = map.rootTopic.summaries[0]
+        expect(summary.range).toBe("(0,1)")
         expect(summary.topicId).toBe(summaryTopic.id)
-
     })
 
-    it('Summary with numbers', () => {
-        let map = createMapByXMindMark(`
+    it("Summary with numbers", () => {
+        const map = createMapByXMindMark(`
 
 central topic
 
@@ -34,16 +32,16 @@ central topic
 
         `)
 
-        let parent = map.rootTopic.children.attached[0]
-        let summaryTopic = parent.children.summary[0]
-        expect(summaryTopic.title).toBe('summary topic 2')
-        let summary = parent.summaries[0]
-        expect(summary.range).toBe('(0,1)')
+        const parent = map.rootTopic.children.attached[0]
+        const summaryTopic = parent.children.summary[0]
+        expect(summaryTopic.title).toBe("summary topic 2")
+        const summary = parent.summaries[0]
+        expect(summary.range).toBe("(0,1)")
         expect(summary.topicId).toBe(summaryTopic.id)
     })
 
-    it('Multi Boundaries', () => {
-        let map = createMapByXMindMark(`
+    it("Multi Boundaries", () => {
+        const map = createMapByXMindMark(`
 
 central topic
 
@@ -56,26 +54,23 @@ central topic
 
         /// S1
         let summaryTopic = map.rootTopic.children.summary[0]
-        expect(summaryTopic.title).toBe('title 1')
+        expect(summaryTopic.title).toBe("title 1")
         let summary = map.rootTopic.summaries[0]
-        expect(summary.range).toBe('(0,0)')
+        expect(summary.range).toBe("(0,0)")
         expect(summary.topicId).toBe(summaryTopic.id)
 
         /// S2
         summaryTopic = map.rootTopic.children.summary[1]
-        expect(summaryTopic.title).toBe('title 2')
+        expect(summaryTopic.title).toBe("title 2")
         summary = map.rootTopic.summaries[1]
-        expect(summary.range).toBe('(1,1)')
+        expect(summary.range).toBe("(1,1)")
         expect(summary.topicId).toBe(summaryTopic.id)
-
     })
-
 })
 
-describe('4.2 - Summary topic has subtopics', () => {
-
-    it('Subtopics', () => {
-        let map = createMapByXMindMark(`
+describe("4.2 - Summary topic has subtopics", () => {
+    it("Subtopics", () => {
+        const map = createMapByXMindMark(`
 
 central topic
 
@@ -87,20 +82,18 @@ central topic
 
         `)
 
-        let summaryTopic = map.rootTopic.children.summary[0]
-        expect(summaryTopic.title).toBe('summary topic')
-        expect(summaryTopic.children.attached[0].title).toBe('subtopic 1')
-        expect(summaryTopic.children.attached[1].title).toBe('subtopic 2')
+        const summaryTopic = map.rootTopic.children.summary[0]
+        expect(summaryTopic.title).toBe("summary topic")
+        expect(summaryTopic.children.attached[0].title).toBe("subtopic 1")
+        expect(summaryTopic.children.attached[1].title).toBe("subtopic 2")
 
-        let summary = map.rootTopic.summaries[0]
-        expect(summary.range).toBe('(0,1)')
+        const summary = map.rootTopic.summaries[0]
+        expect(summary.range).toBe("(0,1)")
         expect(summary.topicId).toBe(summaryTopic.id)
-
-
     })
 
-    it('SubSubtopics', () => {
-        let map = createMapByXMindMark(`
+    it("SubSubtopics", () => {
+        const map = createMapByXMindMark(`
 central topic
 - subtopic 1[S]
     - subsubtopic 1
@@ -109,28 +102,32 @@ central topic
     - summarySubtopic 2
         `)
 
-        let subtopic1 = map.rootTopic.children.attached[0];
-        expect(subtopic1.title).toBe('subtopic 1');
+        const subtopic1 = map.rootTopic.children.attached[0]
+        expect(subtopic1.title).toBe("subtopic 1")
 
         // Verify subtopic 1's child topic, now there's only one child
-        expect(subtopic1.children.attached[0].title).toBe('subsubtopic 1');
+        expect(subtopic1.children.attached[0].title).toBe("subsubtopic 1")
 
         // Verify summary topic
-        let summaryTopic = map.rootTopic.children.summary[0];
-        expect(summaryTopic.title).toBe('summary topic');
+        const summaryTopic = map.rootTopic.children.summary[0]
+        expect(summaryTopic.title).toBe("summary topic")
 
         // Verify child topics under summary topic
-        expect(summaryTopic.children.attached[0].title).toBe('summarySubtopic 1');
-        expect(summaryTopic.children.attached[1].title).toBe('summarySubtopic 2');
+        expect(summaryTopic.children.attached[0].title).toBe(
+            "summarySubtopic 1"
+        )
+        expect(summaryTopic.children.attached[1].title).toBe(
+            "summarySubtopic 2"
+        )
 
         // Verify summary relationship
-        let summary = map.rootTopic.summaries[0];
-        expect(summary.range).toBe('(0,0)');
-        expect(summary.topicId).toBe(summaryTopic.id);
+        const summary = map.rootTopic.summaries[0]
+        expect(summary.range).toBe("(0,0)")
+        expect(summary.topicId).toBe(summaryTopic.id)
     })
 
-    it('Subtopics with boundaries', () => {
-        let map = createMapByXMindMark(`
+    it("Subtopics with boundaries", () => {
+        const map = createMapByXMindMark(`
 central topic
 * topic 1 [S]
 * topic 2 [S]
@@ -139,15 +136,15 @@ central topic
     - subtopic 2 [B]
     [B] boundary topic
     `)
-        let summaryTopic = map.rootTopic.children.summary[0]
-        expect(summaryTopic.title).toBe('summary topic')
-        expect(summaryTopic.children.attached[0].title).toBe('subtopic 1 ')
-        expect(summaryTopic.children.attached[1].title).toBe('subtopic 2 ')
-        let summary = map.rootTopic.summaries[0]
-        expect(summary.range).toBe('(0,1)')
+        const summaryTopic = map.rootTopic.children.summary[0]
+        expect(summaryTopic.title).toBe("summary topic")
+        expect(summaryTopic.children.attached[0].title).toBe("subtopic 1 ")
+        expect(summaryTopic.children.attached[1].title).toBe("subtopic 2 ")
+        const summary = map.rootTopic.summaries[0]
+        expect(summary.range).toBe("(0,1)")
         expect(summary.topicId).toBe(summaryTopic.id)
-        let boundary = summaryTopic.boundaries[0]
-        expect(boundary.range).toBe('(0,1)')
-        expect(boundary.title).toBe('boundary topic')
+        const boundary = summaryTopic.boundaries[0]
+        expect(boundary.range).toBe("(0,1)")
+        expect(boundary.title).toBe("boundary topic")
     })
 })

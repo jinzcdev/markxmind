@@ -1,4 +1,4 @@
-export { createMapByXMindMark } from './parser/mindmark'
-export { parseXMindMarkToXMindFile } from './lib/xmindmark-to-xmind'
-export { parseXMindToXMindMarkFile } from './lib/xmind-to-xmindmark'
-export * from './types'
+export { parseXMindToXMindMarkFile } from "./lib/xmind-to-xmindmark"
+export { parseXMindMarkToXMindFile } from "./lib/xmindmark-to-xmind"
+export { createMapByXMindMark } from "./parser/mindmark"
+export * from "./types"

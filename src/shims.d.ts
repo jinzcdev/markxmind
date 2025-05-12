@@ -1,1 +1,1 @@
-declare var Snowbrush: any
+declare let Snowbrush: any
