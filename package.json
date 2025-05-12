@@ -6,6 +6,7 @@
   "scripts": {
     "serve": "vite",
     "build": "vite build",
+    "build:path": "BASE_URL=./ vite build",
     "preview": "vite preview",
     "test": "vitest",
     "test:watch": "vitest --watch",
@@ -23,20 +24,24 @@
   },
   "devDependencies": {
     "@types/node": "^22.15.17",
-    "ts-node": "^10.9.2",
     "esbuild": "^0.25.2",
     "eslint": "^9.24.0",
     "eslint-config-prettier": "^10.1.2",
     "eslint-plugin-prettier": "^5.2.6",
-    "typescript-eslint": "^8.29.1",
-    "prettier": "^3.5.3",
-    "prettier-plugin-organize-imports": "^4.1.0",
     "husky": "^9.1.7",
     "lint-staged": "^15.5.1",
+    "prettier": "^3.5.3",
+    "prettier-plugin-organize-imports": "^4.1.0",
+    "ts-node": "^10.9.2",
+    "typescript-eslint": "^8.29.1",
     "vite": "^6.3.5",
-    "vitest": "^3.1.3"
+    "vitest": "^3.1.3",
+    "process": "^0.11.10"
   },
   "dependencies": {
     "jszip": "^3.10.1"
+  },
+  "optionalDependencies": {
+    "@rollup/rollup-darwin-x64": "^4.40.2"
   }
 }
