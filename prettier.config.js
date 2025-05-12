@@ -11,6 +11,14 @@ export default {
             options: {
                 tabWidth: 2
             }
+        },
+        {
+            files: ["**/*.html", "**/*.htm"],
+            options: {
+                printWidth: 120,
+                tabWidth: 2,
+                bracketSameLine: false
+            }
         }
     ],
     plugins: ["prettier-plugin-organize-imports"]
