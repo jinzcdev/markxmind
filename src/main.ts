@@ -229,7 +229,7 @@ function initView() {
                     ? openedFileName
                     : getFirstNonEmptyLine(content)
             const blob = new Blob([content], { type: "text/plain" })
-            downloadFile(blob, `${downloadFileName}.xmindmark.md`)
+            downloadFile(blob, `${downloadFileName}.xmindmark`)
         }
     })
 
