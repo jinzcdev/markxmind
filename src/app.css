@@ -204,7 +204,7 @@ body.dark-mode .mode-toggle .icon-moon {
     justify-content: center;
     align-items: stretch;
     background-color: var(--content-bg);
-    gap: 8px;
+    gap: 6px;
     height: calc(100% - 60px);
     overflow: hidden;
 }
@@ -424,6 +424,28 @@ body.dark-mode .mode-toggle .icon-moon {
     padding: 16px 24px;
     border-radius: 8px;
     box-shadow: 0 4px 12px var(--shadow-color);
+}
+
+/* Footer styles */
+.footer {
+    text-align: center;
+    padding: 12px 0;
+    font-size: 18px;
+    color: var(--text-color);
+    opacity: 0.8;
+    background-color: var(--content-bg);
+}
+
+.author-link {
+    color: var(--primary);
+    text-decoration: none;
+    font-weight: 500;
+    transition: all 0.2s ease;
+}
+
+.author-link:hover {
+    opacity: 1;
+    text-decoration: underline;
 }
 
 @media (max-width: 768px) {
