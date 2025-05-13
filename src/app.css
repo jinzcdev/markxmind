@@ -199,12 +199,12 @@ body.dark-mode .mode-toggle .icon-moon {
 
 #body {
     flex: 1;
-    padding: 16px;
+    padding: 14px;
     display: flex;
     justify-content: center;
     align-items: stretch;
     background-color: var(--content-bg);
-    gap: 6px;
+    gap: 3px;
     height: calc(100% - 60px);
     overflow: hidden;
 }
@@ -289,7 +289,7 @@ body.dark-mode .mode-toggle .icon-moon {
 .instruction {
     margin-bottom: 12px;
     color: var(--text-color);
-    font-size: 14px;
+    font-size: 16px;
     opacity: 0.8;
 }
 
@@ -332,12 +332,13 @@ body.dark-mode .mode-toggle .icon-moon {
     flex-direction: row;
     justify-content: space-between;
     gap: 12px;
-    height: 50px;
+    height: auto;
     flex-wrap: wrap;
+    align-items: center;
 }
 
 .convert-option {
-    padding: 8px 12px;
+    padding: 6px 12px;
     cursor: pointer;
     border: 1px solid var(--border-color);
     border-radius: 8px;
@@ -349,11 +350,10 @@ body.dark-mode .mode-toggle .icon-moon {
     display: flex;
     align-items: center;
     gap: 8px;
-    flex: 1;
     justify-content: center;
     background-color: var(--panel-bg);
-    min-height: 40px;
-
+    height: 42px;
+    max-height: 50px;
     flex: 1 1 auto;
 }
 
@@ -454,7 +454,6 @@ body.dark-mode .mode-toggle .icon-moon {
 
 @media (min-width: 1200px) {
     .action-panel {
-        max-width: 90%;
         margin: 0 auto;
     }
 }
@@ -512,24 +511,17 @@ body.dark-mode .mode-toggle .icon-moon {
     }
 
     .convert-option {
-        padding: 6px 8px;
-    }
-
-    .download-text {
-        font-size: 12px;
+        flex: 1 0 calc(50% - 8px);
+        min-width: 120px;
+        padding: 4px 8px;
+        height: 32px;
+        max-height: 32px;
     }
 
     .action-panel {
         flex-wrap: wrap;
         height: auto;
         gap: 8px;
-    }
-
-    .convert-option {
-        flex: 1 0 calc(50% - 8px);
-
-        min-width: 120px;
-        padding: 6px 8px;
     }
 }
 
@@ -560,7 +552,10 @@ body.dark-mode .mode-toggle .icon-moon {
 
     .convert-option {
         flex: 1 0 100%;
-        padding: 6px 4px;
+        padding: 4px 4px;
+        height: 30px;
+        max-height: 30px;
+        width: 100%;
     }
 
     .cursor-icon {
