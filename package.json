@@ -1,7 +1,7 @@
 {
   "name": "markxmind",
   "description": "Create XMind mind maps with Markdown online, export as .xmind/.md/.png/.svg in one click.",
-  "version": "0.1.0",
+  "version": "0.2.0",
   "type": "module",
   "scripts": {
     "serve": "vite",
