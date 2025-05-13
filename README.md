@@ -1,6 +1,6 @@
 # MarkXMind
 
-![License](https://img.shields.io/github/license/jinzcdev/markxmind)
+[![License](https://img.shields.io/github/license/jinzcdev/markxmind.svg)](https://github.com/jinzcdev/markxmind/blob/main/LICENSE)
 [![中文文档](https://img.shields.io/badge/中文文档-点击查看-blue)](README_zh-CN.md)
 ![GitHub Stars](https://img.shields.io/github/stars/jinzcdev/markxmind?style=social)
 
