@@ -40,6 +40,7 @@
     "jszip": "^3.10.1"
   },
   "optionalDependencies": {
-    "@rollup/rollup-darwin-x64": "^4.40.2"
+    "@rollup/rollup-darwin-x64": "^4.40.2",
+    "@rollup/rollup-linux-x64-gnu": "^4.40.2"
   }
 }
