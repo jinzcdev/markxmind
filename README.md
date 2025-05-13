@@ -2,14 +2,14 @@
 
 ![License](https://img.shields.io/github/license/jinzcdev/markxmind)
 [![中文文档](https://img.shields.io/badge/中文文档-点击查看-blue)](README_zh-CN.md)
-![GitHub stars](https://img.shields.io/github/stars/jinzcdev/markxmind?style=social)
+![GitHub Stars](https://img.shields.io/github/stars/jinzcdev/markxmind?style=social)
 
 **MarkXMind** is an online mind mapping editor that creates mind maps using a Markdown-like syntax (XMindMark), with real-time preview and export to multiple formats. Inspired by [Markmap](https://github.com/markmap/markmap) and [XMindMark](https://github.com/xmindltd/xmindmark).
 
 ## ✨ Features
 
 - 🚀 Create complex mind maps with pure text, using simple XMindMark syntax
-- 👁️ Real-time preview of rendered results
+- 👀 Real-time preview of rendered results
 - 💾 Export to multiple formats: `.xmind`, `.xmindmark`, `.svg`, `.png`
 - 📤 Import `.xmind` files and convert to XMindMark text
 - 🖥️ Runs entirely in the browser, no backend services required

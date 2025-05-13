@@ -1,15 +1,15 @@
 # MarkXMind
 
-[![English](https://img.shields.io/badge/English-Click_to_view-blue)](README.md)
 ![许可证](https://img.shields.io/github/license/jinzcdev/markxmind)
-![GitHub stars](https://img.shields.io/github/stars/jinzcdev/markxmind?style=social)
+[![English](https://img.shields.io/badge/English-Click_to_view-blue)](README.md)
+![GitHub Stars](https://img.shields.io/github/stars/jinzcdev/markxmind?style=social)
 
 **MarkXMind** 是一个在线思维导图工具，使用类似 Markdown 的语法（XMindMark）创建 XMind 思维导图，并支持实时预览、导出为多种格式。本项目灵感源于 [Markmap](https://github.com/markmap/markmap) 与 [XMindMark](https://github.com/xmindltd/xmindmark)。
 
 ## ✨ 特性
 
 - 🚀 纯文本创建复杂思维导图，使用简单的 XMindMark 语法
-- 👁️ 实时预览渲染效果
+- 👀 实时预览渲染效果
 - 💾 导出为多种格式：`.xmind`、`.xmindmark`、`.svg`、`.png`
 - 📤 导入 `.xmind` 文件并转换为 XMindMark 文本
 - 🖥️ 完全在浏览器中运行，无需后端服务
