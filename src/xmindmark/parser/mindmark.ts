@@ -52,7 +52,10 @@ function addLine(line: string, status: any) {
         }
 
         if (topicObject.title) {
-            topicObject.title = topicObject.title.trim()
+            topicObject.title = topicObject.title
+                .replace(/\\\[/g, "[")
+                .replace(/\\\]/g, "]")
+                .trim()
         }
 
         status.lastTopic = topicObject
@@ -201,7 +204,10 @@ function addLine(line: string, status: any) {
         }
 
         if (topicObject.title) {
-            topicObject.title = topicObject.title.trim()
+            topicObject.title = topicObject.title
+                .replace(/\\\[/g, "[")
+                .replace(/\\\]/g, "]")
+                .trim()
         }
     }
 }
