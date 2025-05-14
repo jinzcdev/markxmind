@@ -120,3 +120,57 @@ Central Topic
         expect(subtopics[1].title).toBe("Subtopic 3.1.2")
     })
 })
+
+describe("1.4 - Tests for trimming spaces in topics", () => {
+    it("Central topic with extra spaces", () => {
+        const map = createMapByXMindMark(`
+
+   central topic with spaces   
+
+`)
+        expect(map.rootTopic.title).toBe("central topic with spaces")
+    })
+
+    it("Main topics with leading and trailing spaces", () => {
+        const map = createMapByXMindMark(`
+central topic
+-    main topic 1 with spaces    
+-  main topic 2 with spaces  
+`)
+        const attachedMainTopics = map.rootTopic.children.attached
+        expect(attachedMainTopics[0].title).toBe("main topic 1 with spaces")
+        expect(attachedMainTopics[1].title).toBe("main topic 2 with spaces")
+    })
+
+    it("Subtopics with spaces", () => {
+        const map = createMapByXMindMark(`
+central topic
+- main topic
+    *   subtopic 1 with spaces   
+    *  subtopic 2 with spaces  
+        -    sub-subtopic with spaces    
+`)
+        const mainTopic = map.rootTopic.children.attached[0]
+        expect(mainTopic.title).toBe("main topic")
+
+        const subtopics = mainTopic.children.attached
+        expect(subtopics[0].title).toBe("subtopic 1 with spaces")
+        expect(subtopics[1].title).toBe("subtopic 2 with spaces")
+
+        const subsubtopic = subtopics[1].children.attached[0]
+        expect(subsubtopic.title).toBe("sub-subtopic with spaces")
+    })
+
+    it("Topics with markers and spaces", () => {
+        const map = createMapByXMindMark(`
+central topic
+- main topic [1]   with number marker   
+- another topic   [^1]   with relationship marker   
+`)
+        const mainTopics = map.rootTopic.children.attached
+        expect(mainTopics[0].title).toBe("main topic    with number marker")
+        expect(mainTopics[1].title).toBe(
+            "another topic      with relationship marker"
+        )
+    })
+})

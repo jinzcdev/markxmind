@@ -118,3 +118,60 @@ central topic
         expect(boundary.title).toBe("title 1")
     })
 })
+
+describe("3.3 - Boundary with extra spaces", () => {
+    it("Boundary title with leading and trailing spaces", () => {
+        const map = createMapByXMindMark(`
+
+central topic
+
+* topic 1 [B]
+* topic 2 [B]
+[B]    boundary title with spaces    
+
+        `)
+
+        const boundary = map.rootTopic.boundaries[0]
+        expect(boundary.range).toBe("(0,1)")
+        expect(boundary.title).toBe("boundary title with spaces")
+    })
+
+    it("Multiple boundaries with spaces", () => {
+        const map = createMapByXMindMark(`
+
+central topic
+
+* topic 1 [B1]
+* topic 2 [B2]
+[B2]   second boundary title   
+[B1]     first boundary title     
+
+        `)
+
+        let boundary = map.rootTopic.boundaries[0]
+        expect(boundary.range).toBe("(0,0)")
+        expect(boundary.title).toBe("first boundary title")
+
+        boundary = map.rootTopic.boundaries[1]
+        expect(boundary.range).toBe("(1,1)")
+        expect(boundary.title).toBe("second boundary title")
+    })
+
+    it("Nested boundaries with spaces", () => {
+        const map = createMapByXMindMark(`
+
+central topic
+
+* topic 1
+    * topic 1.1 [B]
+    * topic 1.2 [B]
+    [B]    nested boundary title with spaces    
+
+        `)
+
+        const topic = map.rootTopic.children.attached[0]
+        const boundary = topic.boundaries[0]
+        expect(boundary.range).toBe("(0,1)")
+        expect(boundary.title).toBe("nested boundary title with spaces")
+    })
+})

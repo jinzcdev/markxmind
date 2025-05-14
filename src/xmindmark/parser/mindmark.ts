@@ -52,9 +52,7 @@ function addLine(line: string, status: any) {
         }
 
         if (topicObject.title) {
-            topicObject.title = topicObject.title
-                .replace(/\\\[/g, "[")
-                .replace(/\\\]/g, "]")
+            topicObject.title = topicObject.title.trim()
         }
 
         status.lastTopic = topicObject
@@ -89,7 +87,8 @@ function addLine(line: string, status: any) {
 
         const currentLevel = status.levels.find((l) => l.indent == indent)
 
-        currentLevel.parent.boundaries.find((b) => b.name == name).title = title
+        currentLevel.parent.boundaries.find((b) => b.name == name).title =
+            title.trim()
 
         return
     }
@@ -120,7 +119,7 @@ function addLine(line: string, status: any) {
             })
         }
 
-        status.lastTopic = topicObject = addTopic(parentObject, line, {
+        status.lastTopic = topicObject = addTopic(parentObject, line.trim(), {
             boundaries: [],
             summaries: []
         })
@@ -200,6 +199,10 @@ function addLine(line: string, status: any) {
                 addSingleSummary(parentObject, topicObject, { name })
             }
         }
+
+        if (topicObject.title) {
+            topicObject.title = topicObject.title.trim()
+        }
     }
 }
 
@@ -208,7 +211,7 @@ export function createMapByXMindMark(raw = "Central Topic"): any {
 
     /// The First Line must be Central Topic
 
-    const map = createMap(lines.shift())
+    const map = createMap(lines.shift()?.trim())
     map.rootTopic.boundaries = []
     map.rootTopic.summaries = []
 

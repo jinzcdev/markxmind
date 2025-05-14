@@ -138,13 +138,69 @@ central topic
     `)
         const summaryTopic = map.rootTopic.children.summary[0]
         expect(summaryTopic.title).toBe("summary topic")
-        expect(summaryTopic.children.attached[0].title).toBe("subtopic 1 ")
-        expect(summaryTopic.children.attached[1].title).toBe("subtopic 2 ")
+        expect(summaryTopic.children.attached[0].title).toBe("subtopic 1")
+        expect(summaryTopic.children.attached[1].title).toBe("subtopic 2")
         const summary = map.rootTopic.summaries[0]
         expect(summary.range).toBe("(0,1)")
         expect(summary.topicId).toBe(summaryTopic.id)
         const boundary = summaryTopic.boundaries[0]
         expect(boundary.range).toBe("(0,1)")
         expect(boundary.title).toBe("boundary topic")
+    })
+})
+
+describe("4.3 - Tests for trimming spaces in summary and boundary topics", () => {
+    it("Summary topic with extra spaces", () => {
+        const map = createMapByXMindMark(`
+central topic
+* topic 1 [S]
+* topic 2 [S]
+[S]    summary topic with spaces    
+        `)
+
+        const summaryTopic = map.rootTopic.children.summary[0]
+        expect(summaryTopic.title).toBe("summary topic with spaces")
+    })
+
+    it("Boundary topic with extra spaces", () => {
+        const map = createMapByXMindMark(`
+central topic
+* topic 1 [B]
+* topic 2 [B]
+[B]    boundary topic with spaces    
+        `)
+
+        const boundary = map.rootTopic.boundaries[0]
+        expect(boundary.title).toBe("boundary topic with spaces")
+    })
+
+    it("Summary topic with multiple spaces between words", () => {
+        const map = createMapByXMindMark(`
+central topic
+* topic 1 [S]
+* topic 2 [S]
+[S] summary    with    multiple    spaces
+        `)
+
+        const summaryTopic = map.rootTopic.children.summary[0]
+        expect(summaryTopic.title).toBe("summary    with    multiple    spaces")
+    })
+
+    it("Complex case with spaces in summary subtopics", () => {
+        const map = createMapByXMindMark(`
+central topic
+* topic 1 [S]
+* topic 2 [S]
+[S]   summary topic   
+    -    subtopic with spaces    
+    -  another subtopic with spaces  
+        `)
+
+        const summaryTopic = map.rootTopic.children.summary[0]
+        expect(summaryTopic.title).toBe("summary topic")
+
+        const subtopics = summaryTopic.children.attached
+        expect(subtopics[0].title).toBe("subtopic with spaces")
+        expect(subtopics[1].title).toBe("another subtopic with spaces")
     })
 })

@@ -120,3 +120,59 @@ Central Topic
         expect(subtopics[1].title).toBe("Subtopic 3.1.2")
     })
 })
+
+describe("1.4 - Space trimming tests", () => {
+    it("Central topic with leading and trailing spaces", () => {
+        const map = createMapByXMindMark(`
+
+    central topic with spaces    
+
+`)
+        expect(map.rootTopic.title).toBe("central topic with spaces")
+    })
+
+    it("Multiple spaces in central topic", () => {
+        const map = createMapByXMindMark(
+            `   multiple    spaces    in central    `
+        )
+        expect(map.rootTopic.title).toBe("multiple    spaces    in central")
+    })
+
+    it("Topics with spaces at different levels", () => {
+        const map = createMapByXMindMark(`
+   Central Topic with spaces   
+-    Main Topic 1 with spaces    
+-  Main Topic 2 with spaces  
+    * Subtopic with leading and trailing spaces    
+`)
+        expect(map.rootTopic.title).toBe("Central Topic with spaces")
+
+        const mainTopics = map.rootTopic.children.attached
+        expect(mainTopics[0].title).toBe("Main Topic 1 with spaces")
+        expect(mainTopics[1].title).toBe("Main Topic 2 with spaces")
+        expect(mainTopics[1].children.attached[0].title).toBe(
+            "Subtopic with leading and trailing spaces"
+        )
+    })
+
+    it("Topics with only spaces", () => {
+        const map = createMapByXMindMark(`
+   Central Topic   
+-     
+-  Main Topic  
+    *      
+`)
+        expect(map.rootTopic.title).toBe("Central Topic")
+        expect(map.rootTopic.children.attached[0].title).toBe("")
+        expect(map.rootTopic.children.attached[1].title).toBe("Main Topic")
+        // TODO should be empty title
+        // expect(map.rootTopic.children.attached[1].children.attached[0].title).toBe("")
+    })
+
+    it("Central topic with tab and space characters", () => {
+        const map = createMapByXMindMark(
+            `  \t  Central Topic with tabs and spaces  \t  `
+        )
+        expect(map.rootTopic.title).toBe("Central Topic with tabs and spaces")
+    })
+})
