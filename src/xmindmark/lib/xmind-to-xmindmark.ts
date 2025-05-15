@@ -190,10 +190,12 @@ function isOrderInsideRange(range: ClosedRange, order: number): boolean {
 }
 
 function makeIndentOfLine({ depth }: Pick<TopicScope, "depth">): string {
-    return Array.from({ length: depth }).reduce<string>(
-        (prevIndent) => prevIndent.concat("    "),
-        ""
-    )
+    return depth <= 1
+        ? ""
+        : Array.from({ length: depth - 1 }).reduce<string>(
+              (prevIndent) => prevIndent.concat("    "),
+              ""
+          )
 }
 
 function makePrefixOfLine({ depth, type }: TopicScope): string {

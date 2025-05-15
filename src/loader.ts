@@ -6,14 +6,11 @@ export async function loadFileAsText(file: File): Promise<string> {
         fileReader.addEventListener("error", reject)
         fileReader.addEventListener("abort", reject)
         const suffix = file.name.split(".").slice(-1)[0]
-        // support .xmind file
         if (suffix === "xmind") {
             fileReader.readAsArrayBuffer(file)
             fileReader.addEventListener("loadend", async () => {
-                const content = formatXMindMarkFileFromXMind(
-                    await parseXMindToXMindMarkFile(
-                        fileReader.result as ArrayBuffer
-                    )
+                const content = await parseXMindToXMindMarkFile(
+                    fileReader.result as ArrayBuffer
                 )
                 if (content) {
                     resolve(content)
@@ -47,30 +44,4 @@ export function downloadFile(content: ArrayBuffer | Blob, fileName: string) {
     // clear
     URL.revokeObjectURL(url)
     document.body.removeChild(downloader)
-}
-
-/**
- * Format the content of xmindmark file from xmind
- *
- * @param content
- */
-function formatXMindMarkFileFromXMind(content?: string): string | null {
-    if (!content) {
-        return ""
-    }
-    const lines = content.split("\n")
-    let startIndex = 0
-    for (let i = 0; i < lines.length; i++) {
-        if (lines[i].trim() !== "") {
-            startIndex = i
-            break
-        }
-    }
-    for (let i = startIndex + 1; i < lines.length; i++) {
-        const line = lines[i]
-        if (line.startsWith("    ")) {
-            lines[i] = line.slice(4)
-        }
-    }
-    return lines.join("\n")
 }
