@@ -1,5 +1,5 @@
 import { describe, expect, it } from "vitest"
-import { createMapByXMindMark } from "./mindmark"
+import { createMapByXMindMark } from "../mindmark"
 
 describe("3.1 - Boundary", () => {
     it("Basic Boundary", () => {

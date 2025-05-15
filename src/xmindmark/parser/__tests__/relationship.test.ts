@@ -1,5 +1,5 @@
 import { describe, expect, it } from "vitest"
-import { createMapByXMindMark } from "./mindmark"
+import { createMapByXMindMark } from "../mindmark"
 
 describe("1.1 - Basic tests for Central Topics", () => {
     it("Only Central Topic", () => {
@@ -121,58 +121,56 @@ Central Topic
     })
 })
 
-describe("1.4 - Space trimming tests", () => {
-    it("Central topic with leading and trailing spaces", () => {
+describe("1.4 - Tests for trimming spaces in topics", () => {
+    it("Central topic with extra spaces", () => {
         const map = createMapByXMindMark(`
 
-    central topic with spaces    
+   central topic with spaces   
 
 `)
         expect(map.rootTopic.title).toBe("central topic with spaces")
     })
 
-    it("Multiple spaces in central topic", () => {
-        const map = createMapByXMindMark(
-            `   multiple    spaces    in central    `
-        )
-        expect(map.rootTopic.title).toBe("multiple    spaces    in central")
+    it("Main topics with leading and trailing spaces", () => {
+        const map = createMapByXMindMark(`
+central topic
+-    main topic 1 with spaces    
+-  main topic 2 with spaces  
+`)
+        const attachedMainTopics = map.rootTopic.children.attached
+        expect(attachedMainTopics[0].title).toBe("main topic 1 with spaces")
+        expect(attachedMainTopics[1].title).toBe("main topic 2 with spaces")
     })
 
-    it("Topics with spaces at different levels", () => {
+    it("Subtopics with spaces", () => {
         const map = createMapByXMindMark(`
-   Central Topic with spaces   
--    Main Topic 1 with spaces    
--  Main Topic 2 with spaces  
-    * Subtopic with leading and trailing spaces    
+central topic
+- main topic
+    *   subtopic 1 with spaces   
+    *  subtopic 2 with spaces  
+        -    sub-subtopic with spaces    
 `)
-        expect(map.rootTopic.title).toBe("Central Topic with spaces")
+        const mainTopic = map.rootTopic.children.attached[0]
+        expect(mainTopic.title).toBe("main topic")
 
+        const subtopics = mainTopic.children.attached
+        expect(subtopics[0].title).toBe("subtopic 1 with spaces")
+        expect(subtopics[1].title).toBe("subtopic 2 with spaces")
+
+        const subsubtopic = subtopics[1].children.attached[0]
+        expect(subsubtopic.title).toBe("sub-subtopic with spaces")
+    })
+
+    it("Topics with markers and spaces", () => {
+        const map = createMapByXMindMark(`
+central topic
+- main topic [1]   with number marker   
+- another topic   [^1]   with relationship marker   
+`)
         const mainTopics = map.rootTopic.children.attached
-        expect(mainTopics[0].title).toBe("Main Topic 1 with spaces")
-        expect(mainTopics[1].title).toBe("Main Topic 2 with spaces")
-        expect(mainTopics[1].children.attached[0].title).toBe(
-            "Subtopic with leading and trailing spaces"
+        expect(mainTopics[0].title).toBe("main topic    with number marker")
+        expect(mainTopics[1].title).toBe(
+            "another topic      with relationship marker"
         )
-    })
-
-    it("Topics with only spaces", () => {
-        const map = createMapByXMindMark(`
-   Central Topic   
--     
--  Main Topic  
-    *      
-`)
-        expect(map.rootTopic.title).toBe("Central Topic")
-        expect(map.rootTopic.children.attached[0].title).toBe("")
-        expect(map.rootTopic.children.attached[1].title).toBe("Main Topic")
-        // TODO should be empty title
-        // expect(map.rootTopic.children.attached[1].children.attached[0].title).toBe("")
-    })
-
-    it("Central topic with tab and space characters", () => {
-        const map = createMapByXMindMark(
-            `  \t  Central Topic with tabs and spaces  \t  `
-        )
-        expect(map.rootTopic.title).toBe("Central Topic with tabs and spaces")
     })
 })

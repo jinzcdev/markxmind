@@ -1,5 +1,5 @@
 import { describe, expect, it } from "vitest"
-import { createMapByXMindMark } from "./mindmark"
+import { createMapByXMindMark } from "../mindmark"
 
 describe("4.1 - Summary", () => {
     it("Basic Summary", () => {
