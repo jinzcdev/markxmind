@@ -17,7 +17,7 @@
 
 ## 🔗 在线使用
 
-[👉 立即体验 MarkXMind](https://jinzcdev.github.io/markxmind/)
+[👉 立即体验 MarkXMind](https://markxmind.js.org/)
 
 ![MarkXMind 预览](./docs/preview.png)
 

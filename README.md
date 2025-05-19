@@ -17,7 +17,7 @@
 
 ## 🔗 Online Usage
 
-[👉 Try MarkXMind now](https://jinzcdev.github.io/markxmind/)
+[👉 Try MarkXMind now](https://markxmind.js.org/)
 
 ![MarkXMind Preview](./docs/preview.png)
 
