@@ -4,6 +4,16 @@ export type TopicModel = {
     class?: string
     structureClass?: string
     titleUnedited?: boolean
+    href?: string
+    branch?: string
+    notes?: {
+        plain: {
+            content: string
+        }
+        realHTML: {
+            content: string
+        }
+    }
     boundaries?: BoundaryModel[]
     summaries?: SummaryModel[]
     labels?: string[]

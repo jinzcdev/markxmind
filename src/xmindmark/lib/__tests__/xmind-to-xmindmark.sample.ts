@@ -9,18 +9,24 @@ export const inputJSON = [
             title: "Central Topic",
             structureClass: "org.xmind.ui.logic.right",
             titleUnedited: true,
+            notes: {
+                plain: { content: "My Notes\n" },
+                realHTML: { content: "<div>My Notes</div>" }
+            },
             children: {
                 attached: [
                     {
                         id: "d6a999f494d910ae15ec7847d5",
                         title: "Main Topic 1",
                         titleUnedited: true,
+                        href: "https://example.com",
                         children: {
                             attached: [
                                 {
                                     title: "Subtopic 1",
                                     titleUnedited: true,
                                     id: "375b995c-7963-4df6-87fb-fa364f41e251",
+                                    branch: "folded",
                                     children: {
                                         attached: [
                                             {
@@ -489,20 +495,20 @@ export const inputJSON = [
     }
 ]
 
-export const expectedOutputXMindMark = `Central Topic
-- Main Topic 1 [^1]
-    - Subtopic 1 [2]
+export const expectedOutputXMindMark = `Central Topic [N:My Notes\\n]
+- Main Topic 1 [^1][L:https://example.com]
+    - Subtopic 1 [2][F]
         - Subtopic 1 [B1]
         - Subtopic 2 [B1][B2]
         - Subtopic 3 [B2]
-        [B1]: title1
-        [B2]: title2
+        [B1] title1
+        [B2] title2
     - Subtopic 2
     - Subtopic 3 [^2]
         - Subtopic 1 [B]
         - Subtopic 2 [B]
         - Subtopic 3 [B]
-        [B]: title2
+        [B] title2
 - Main Topic 2 [1]
 - Main Topic 3
     - Subtopic 1
@@ -510,11 +516,11 @@ export const expectedOutputXMindMark = `Central Topic
         - Subtopic 2 [B][S1][S2]
         - Subtopic 3 [B][S1][S2]
         - Subtopic 4 [S2]
-        [S1]: Summary 1
+        [S1] Summary 1
             - Subtopic 1
             - Subtopic 2
             - Subtopic 3
-        [S2]: Summary 2
+        [S2] Summary 2
     - Subtopic 2
     - Subtopic 3
 - Main Topic 4 [3]

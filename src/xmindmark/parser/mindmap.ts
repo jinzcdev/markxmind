@@ -221,6 +221,7 @@ export const setTheme = (mapObject: any) => {
 
 export const createMap = (
     centralTopic = "Central Topic",
+    centralTopicOptions = {},
     options = {}
 ): SheetModel => ({
     id: UUID(),
@@ -231,7 +232,8 @@ export const createMap = (
         class: "topic",
         title: centralTopic,
         structureClass: "org.xmind.ui.logic.right",
-        titleUnedited: true
+        titleUnedited: true,
+        ...centralTopicOptions
     },
     topicPositioning: "fixed",
     relationships: [],

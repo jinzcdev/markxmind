@@ -4,6 +4,9 @@ import {
     addSingleSummary,
     addTopic,
     createMap,
+    fold,
+    setHyperlink,
+    setTextNotes,
     setTheme
 } from "./mindmap"
 
@@ -15,6 +18,9 @@ const boundaryTitleRE = /^(\s*)\[(B\d*)\]/i
 const summaryRE = /\[(S\d*)\]/i
 const summaryTopicRE = /^(\s*)\[(S\d*)\]/i
 const rangeRE = /\((\d+),(\d+)\)/
+const urlRE = /\[L:(.*?)\]/
+const noteRE = /\[N:(.*?)\]/
+const foldRE = /\[F\]/
 
 function addLine(line: string, status: any) {
     if (summaryTopicRE.test(line)) {
@@ -203,6 +209,30 @@ function addLine(line: string, status: any) {
             }
         }
 
+        /// process [L:link]
+        while (urlRE.test(line)) {
+            const url = line.match(urlRE)![1].trim()
+            line = line.replace(urlRE, "")
+            topicObject.title = line
+            setHyperlink(topicObject, url)
+        }
+
+        /// process [N:note content]
+        while (noteRE.test(line)) {
+            const noteContent = line.match(noteRE)![1].trim()
+            line = line.replace(noteRE, "")
+            topicObject.title = line
+            setTextNotes(topicObject, noteContent, `<p>${noteContent}</p>`)
+        }
+
+        /// process [F]
+        if (foldRE.test(line)) {
+            line = line.replace(foldRE, "")
+            topicObject.title = line
+            fold(topicObject)
+        }
+
+        // finally clean up title, remove all marks for the final title
         if (topicObject.title) {
             topicObject.title = topicObject.title
                 .replace(/\\\[/g, "[")
@@ -215,9 +245,43 @@ function addLine(line: string, status: any) {
 export function createMapByXMindMark(raw = "Central Topic"): any {
     const lines = raw.trim().split("\n")
 
-    /// The First Line must be Central Topic
+    let centralTopic = lines.shift()?.trim() || "Central Topic"
+    const centralTopicOptions: any = {}
 
-    const map = createMap(lines.shift()?.trim())
+    // process URL mark in root topic
+    while (urlRE.test(centralTopic)) {
+        const url = centralTopic.match(urlRE)![1].trim()
+        centralTopic = centralTopic.replace(urlRE, "")
+        centralTopicOptions.href = url
+    }
+
+    // process NOTE mark in root topic
+    while (noteRE.test(centralTopic)) {
+        const noteContent = centralTopic.match(noteRE)![1].trim()
+        centralTopic = centralTopic.replace(noteRE, "")
+        centralTopicOptions.notes = {
+            plain: {
+                content: noteContent
+            },
+            realHTML: {
+                content: `<p>${noteContent}</p>`
+            }
+        }
+    }
+
+    // process F mark in root topic
+    if (foldRE.test(centralTopic)) {
+        centralTopic = centralTopic.replace(foldRE, "")
+        centralTopicOptions.branch = "folded"
+    }
+
+    // clean up title
+    centralTopic = centralTopic
+        .replace(/\\\[/g, "[")
+        .replace(/\\\]/g, "]")
+        .trim()
+
+    const map = createMap(centralTopic, centralTopicOptions)
     map.rootTopic.boundaries = []
     map.rootTopic.summaries = []
 

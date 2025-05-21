@@ -31,6 +31,9 @@ type TopicScope = BranchScope & {
     readonly title: string
     readonly order: number // starts from 0, like index
     readonly type: TopicType | "root"
+    readonly href?: string
+    readonly notes?: any
+    readonly branch?: string
 }
 type TopicScopeObserver = (scope: TopicScope) => void
 type BranchScopeObserver = (scope: BranchScope) => void
@@ -64,7 +67,7 @@ function xmindMarkFrom({
         const line = indent.concat(
             ...[
                 prefix,
-                typeIdentifier.length > 0 ? `${typeIdentifier}: ` : "",
+                typeIdentifier.length > 0 ? `${typeIdentifier} ` : "",
                 // label.length > 0 ? `${label} ` : '',
                 title,
                 extensionIdentifier
@@ -118,6 +121,9 @@ function traverseBranch(
         title: rootTopic.title ?? "",
         order: index ?? 0,
         type: type ?? "root",
+        href: rootTopic.href,
+        notes: rootTopic.notes,
+        branch: rootTopic.branch,
         ...branchScope
     }
 
@@ -223,6 +229,29 @@ function makeTitleOfLine({ title }: TopicScope): string {
     return title
 }
 
+function makeURLIdentifierOfLine({ href }: TopicScope): string {
+    return href ? `[L:${href}]` : ""
+}
+
+function makeNoteIdentifierOfLine({ notes }: TopicScope): string {
+    if (!notes || !notes.plain) return ""
+    if (notes.plain.content) {
+        const escapedContent = notes.plain.content
+            .replace(/\n/g, "\\n")
+            .replace(/\t/g, "\\t")
+            .replace(/\[/g, "\\[")
+            .replace(/\]/g, "\\]")
+            .trim()
+
+        return `[N:${escapedContent}]`
+    }
+    return ""
+}
+
+function makeFoldIdentifierOfLine({ branch }: TopicScope): string {
+    return branch === "folded" ? `[F]` : ""
+}
+
 function makeRelationshipIdentifierOfLine({
     relationships,
     id
@@ -281,17 +310,27 @@ function makeExtensionIdentifierOfLine(scope: TopicScope): string {
     const relationshipIdentifier = makeRelationshipIdentifierOfLine(scope)
     const boundaryIdentifier = makeBoundaryIdenfitierOfLine(scope)
     const summaryIdentifier = makeSummaryIdentifierOfLine(scope)
+    const urlIdentifier = makeURLIdentifierOfLine(scope)
+    const noteIdentifier = makeNoteIdentifierOfLine(scope)
+    const foldIdentifier = makeFoldIdentifierOfLine(scope)
 
-    return relationshipIdentifier || boundaryIdentifier || summaryIdentifier
-        ? ` ${relationshipIdentifier}${boundaryIdentifier}${summaryIdentifier}`
-        : ""
+    const identifiers = [
+        relationshipIdentifier,
+        boundaryIdentifier,
+        summaryIdentifier,
+        urlIdentifier,
+        noteIdentifier,
+        foldIdentifier
+    ].filter((id) => id !== "")
+
+    return identifiers.length > 0 ? ` ${identifiers.join("")}` : ""
 }
 
 function makeBoundaryTitleLine(
     scope: BranchScope,
     { identifier, title }: Boundary
 ): string {
-    return `${makeIndentOfLine(scope)}[${identifier}]: ${title}`
+    return `${makeIndentOfLine(scope)}[${identifier}] ${title}`
 }
 
 function makeIdentifyBoundaries(topic: TopicModel): Boundary[] {
