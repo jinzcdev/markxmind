@@ -1,0 +1,130 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta name="google-site-verification" content="W0oWndWYhDcWjrNDTvU-cnL9DOKRBu58OSZ07JZUFhk" />
+    <meta name="baidu-site-verification" content="codeva-688UtsySmt" />
+    <meta name="msvalidate.01" content="5732B9FB65F7FD32DCC87858A8251CB1" />
+    <title>Try MarkXMind</title>
+    <link rel="icon" href="/favicon.ico" type="image/x-icon" />
+    <!-- Init Monaco editor -->
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/monaco-editor/0.52.2/min/vs/editor/editor.main.min.css"
+      integrity="sha512-NSBo7z5U9w3Y/maVpyxwEzpMKJteo+y3uDNT1M4RuXo8SH2OQfECzuEqbkoDA5Lo2DcWUvxkLrOAtOp/tYLkGg=="
+      crossorigin="anonymous"
+      referrerpolicy="no-referrer"
+    />
+    <script>
+      var require = { paths: { vs: "https://cdnjs.cloudflare.com/ajax/libs/monaco-editor/0.52.2/min/vs" } }
+    </script>
+    <script
+      defer
+      src="https://cdnjs.cloudflare.com/ajax/libs/monaco-editor/0.52.2/min/vs/loader.min.js"
+      integrity="sha512-ZG31AN9z/CQD1YDDAK4RUAvogwbJHv6bHrumrnMLzdCrVu4HeAqrUX7Jsal/cbUwXGfaMUNmQU04tQ8XXl5Znw=="
+      crossorigin="anonymous"
+      referrerpolicy="no-referrer"
+    ></script>
+    <script
+      defer
+      src="https://cdnjs.cloudflare.com/ajax/libs/monaco-editor/0.52.2/min/vs/editor/editor.main.js"
+      integrity="sha512-Rvm80pldXwjZQPHcW9Dx3U8pygTafC25yXwrxrPC6ZuNVgBsR2BN2pFAU2ImvYYeFcUaKo7bRcf7KxHD+LMp6w=="
+      crossorigin="anonymous"
+      referrerpolicy="no-referrer"
+    ></script>
+    <!-- Init render engine -->
+    <script src="https://assets.xmind.net/snowbrush/snowbrush-2.47.0.js"></script>
+    <script type="module" crossorigin src="/assets/index-DegEQ8Lk.js"></script>
+    <link rel="stylesheet" crossorigin href="/assets/index-B5CtpkmR.css">
+  </head>
+  <body>
+    <div id="app">
+      <header id="header">
+        <div class="logo">
+          <span class="logo-text">MarkXMind</span>
+          <span class="logo-tag">XMind Online Editor</span>
+        </div>
+        <div class="github-link">
+          <a href="https://github.com/jinzcdev/markxmind/stargazers" target="_blank" class="github-stars">
+            <img src="https://img.shields.io/github/stars/jinzcdev/markxmind" alt="GitHub Stars" />
+          </a>
+          <a href="https://github.com/jinzcdev/markxmind" target="_blank" class="github-text"> GitHub </a>
+          <div class="mode-toggle" id="mode-toggle" title="Toggle dark/light mode">
+            <svg xmlns="http://www.w3.org/2000/svg" class="icon-sun" width="1em" height="1em" viewBox="0 0 24 24">
+              <path
+                fill="currentColor"
+                d="m3.55 19.09l1.41 1.41l1.8-1.79l-1.42-1.42M12 6c-3.31 0-6 2.69-6 6s2.69 6 6 6s6-2.69 6-6c0-3.32-2.69-6-6-6m8 7h3v-2h-3m-2.76 7.71l1.8 1.79l1.41-1.41l-1.79-1.8M20.45 5l-1.41-1.4l-1.8 1.79l1.42 1.42M13 1h-2v3h2M6.76 5.39L4.96 3.6L3.55 5l1.79 1.81zM1 13h3v-2H1m12 9h-2v3h2"
+              ></path>
+            </svg>
+            <svg xmlns="http://www.w3.org/2000/svg" class="icon-moon" width="1em" height="1em" viewBox="0 0 24 24">
+              <path
+                fill="currentColor"
+                d="m17.75 4.09l-2.53 1.94l.91 3.06l-2.63-1.81l-2.63 1.81l.91-3.06l-2.53-1.94L12.44 4l1.06-3l1.06 3zm3.5 6.91l-1.64 1.25l.59 1.98l-1.7-1.17l-1.7 1.17l.59-1.98L15.75 11l2.06-.05L18.5 9l.69 1.95zm-2.28 4.95c.83-.08 1.72 1.1 1.19 1.85c-.32.45-.66.87-1.08 1.27C15.17 23 8.84 23 4.94 19.07c-3.91-3.9-3.91-10.24 0-14.14c.4-.4.82-.76 1.27-1.08c.75-.53 1.93.36 1.85 1.19c-.27 2.86.69 5.83 2.89 8.02a9.96 9.96 0 0 0 8.02 2.89m-1.64 2.02a12.08 12.08 0 0 1-7.8-3.47c-2.17-2.19-3.33-5-3.49-7.82c-2.81 3.14-2.7 7.96.31 10.98c3.02 3.01 7.84 3.12 10.98.31"
+              ></path>
+            </svg>
+          </div>
+        </div>
+      </header>
+      <div id="body">
+        <div id="content" class="panel">
+          <input
+            type="file"
+            name="file-select"
+            id="file-select"
+            accept=".xmind,.xmindmark,.md,.txt"
+            style="display: none"
+          />
+
+          <label id="file-select-handler" for="file-select" class="button-primary">
+            <svg
+              xmlns="http://www.w3.org/2000/svg"
+              width="16"
+              height="16"
+              viewBox="0 0 24 24"
+              fill="none"
+              stroke="currentColor"
+              stroke-width="2"
+              stroke-linecap="round"
+              stroke-linejoin="round"
+              class="upload-icon"
+            >
+              <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"></path>
+              <polyline points="17 8 12 3 7 8"></polyline>
+              <line x1="12" y1="3" x2="12" y2="15"></line>
+            </svg>
+            Choose File <small>(.xmind / .xmindmark / .md / .txt)</small>
+          </label>
+          <div class="instruction">Or edit your mind map below:</div>
+          <div id="input" class="editor-container"></div>
+        </div>
+        <div id="resizer"></div>
+        <div id="result-container" class="panel">
+          <div id="result" class="preview-container"></div>
+          <div id="convert" class="action-panel">
+            <div class="convert-option" id="convert-xmind">
+              <div class="cursor-icon">👉</div>
+              <div class="download-text">Export XMind</div>
+            </div>
+            <div class="convert-option" id="convert-xmindmark">
+              <div class="cursor-icon">📝</div>
+              <div class="download-text">Export XMindMark</div>
+            </div>
+            <div class="convert-option" id="convert-svg">
+              <div class="cursor-icon">🖼️</div>
+              <div class="download-text">Export SVG</div>
+            </div>
+            <div class="convert-option" id="convert-png">
+              <div class="cursor-icon">📊</div>
+              <div class="download-text">Export PNG</div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <footer class="footer">
+      <span>Designed by <a href="https://github.com/jinzcdev" target="_blank" class="author-link">jinzcdev</a></span>
+    </footer>
+  </body>
+</html>
