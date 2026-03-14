@@ -4,7 +4,7 @@
     "packages/*"
   ],
   "description": "Create XMind mind maps with Markdown online, export as .xmind/.md/.png/.svg in one click.",
-  "version": "0.2.0",
+  "version": "0.3.0",
   "type": "module",
   "scripts": {
     "serve": "npm run build -w @markxmind/markxmind-core && vite",
