@@ -7,6 +7,10 @@
 
 MarkXMind parser — turn Markdown-like text into XMind mind map data.
 
+> 🎉 **Use MarkXMind online**
+>
+> [**MarkXMind**](https://github.com/jinzcdev/markxmind) is an online editor that builds mind maps from XMindMark syntax. It offers real-time preview, export to .xmind / .svg / .png, and import of existing XMind files. [**Try it now**](https://markxmind.js.org/) →
+
 ## ⚙️ Requirements
 
 - **Node.js** ≥ 18 (when used in Node).
@@ -70,7 +74,6 @@ import type {
 
 - **Web editors** — Live preview of MarkXMind text.
 - **CLI tools** — Convert between `.xmind` and `.xmindmark` on the command line.
-- **Custom renderers** — Feed `SheetModel` into any renderer (e.g. Snowbrush, Canvas, SVG).
 
 ## 📄 License
 

@@ -7,6 +7,10 @@
 
 MarkXMind 解析核心库 —— 将类 Markdown 语法的文本解析为 XMind 思维导图数据结构。
 
+> 🎉 **在线使用 MarkXMind**
+>
+> [**MarkXMind**](https://github.com/jinzcdev/markxmind) 是基于本库的在线编辑器：用 XMindMark 语法编写即可生成思维导图，支持实时预览、导出 .xmind / .svg / .png，以及导入已有 XMind 文件。[**立即体验**](https://markxmind.js.org/) →
+
 ## ⚙️ 环境要求
 
 - **Node.js** ≥ 18（在 Node 中使用时）。
@@ -70,7 +74,6 @@ import type {
 
 - **Web 编辑器**：实时预览 MarkXMind 文本。
 - **CLI 工具**：在命令行中转换 .xmind ↔ .xmindmark。
-- **自定义渲染**：将 `SheetModel` 传入任意渲染库（如 Snowbrush、Canvas、SVG）。
 
 ## 📄 许可证
 
