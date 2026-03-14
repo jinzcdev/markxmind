@@ -1,4 +1,4 @@
-import { parseXMindToXMindMarkFile } from "./xmindmark"
+import { parseXMindToXMindMarkFile } from "@markxmind/markxmind-core"
 
 export async function loadFileAsText(file: File): Promise<string> {
     return new Promise((resolve, reject) => {

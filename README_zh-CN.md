@@ -2,7 +2,10 @@
 
 [![License](https://img.shields.io/github/license/jinzcdev/markxmind.svg)](https://github.com/jinzcdev/markxmind/blob/main/LICENSE)
 [![English](https://img.shields.io/badge/English-Click_to_view-blue)](README.md)
-![GitHub Stars](https://img.shields.io/github/stars/jinzcdev/markxmind?style=social)
+[![npm](https://img.shields.io/npm/v/@markxmind/markxmind-core.svg)](https://www.npmjs.com/package/@markxmind/markxmind-core)
+[![GitHub Stars](https://img.shields.io/github/stars/jinzcdev/markxmind?style=social)](https://github.com/jinzcdev/markxmind)
+
+> **🎉 [@markxmind/markxmind-core](https://www.npmjs.com/package/@markxmind/markxmind-core)** 已发布至 npm，可在任意 Node.js 或浏览器项目中使用：`npm install @markxmind/markxmind-core`。
 
 **MarkXMind** 是一个在线思维导图工具，使用类似 Markdown 的语法（XMindMark）创建 XMind 思维导图，并支持实时预览、导出为多种格式。本项目灵感源于 [Markmap](https://github.com/markmap/markmap) 与 [XMindMark](https://github.com/xmindltd/xmindmark)。
 

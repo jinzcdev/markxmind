@@ -1,5 +1,5 @@
+import { createMapByXMindMark } from "@markxmind/markxmind-core"
 import { darkTheme, lightTheme } from "./theme"
-import { createMapByXMindMark } from "./xmindmark"
 
 export function applyMapTheme(sb: any, isDarkMode: boolean) {
     if (!sb) return

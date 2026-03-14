@@ -2,7 +2,10 @@
 
 [![License](https://img.shields.io/github/license/jinzcdev/markxmind.svg)](https://github.com/jinzcdev/markxmind/blob/main/LICENSE)
 [![中文文档](https://img.shields.io/badge/中文文档-点击查看-blue)](README_zh-CN.md)
-![GitHub Stars](https://img.shields.io/github/stars/jinzcdev/markxmind?style=social)
+[![npm](https://img.shields.io/npm/v/@markxmind/markxmind-core.svg)](https://www.npmjs.com/package/@markxmind/markxmind-core)
+[![GitHub Stars](https://img.shields.io/github/stars/jinzcdev/markxmind?style=social)](https://github.com/jinzcdev/markxmind)
+
+> **🎉 [@markxmind/markxmind-core](https://www.npmjs.com/package/@markxmind/markxmind-core)** — the MarkXMind (XMindMark) parser — is now published on npm. Use it in any Node.js or browser project: `npm install @markxmind/markxmind-core`.
 
 **MarkXMind** is an online mind mapping editor that creates mind maps using a Markdown-like syntax (XMindMark), with real-time preview and export to multiple formats. Inspired by [Markmap](https://github.com/markmap/markmap) and [XMindMark](https://github.com/xmindltd/xmindmark).
 

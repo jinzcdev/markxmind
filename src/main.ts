@@ -1,7 +1,7 @@
+import { parseXMindMarkToXMindFile } from "@markxmind/markxmind-core"
 import { defaultXMindMark } from "./common/constant"
 import { downloadFile, loadFileAsText } from "./loader"
 import { exportMapToImage, renderMapByString, updateMapTheme } from "./map"
-import { parseXMindMarkToXMindFile } from "./xmindmark"
 
 let openedFileName: string = ""
 

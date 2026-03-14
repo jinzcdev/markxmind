@@ -1,3 +1,4 @@
+import { type SheetModel } from "../types"
 import {
     addRelationship,
     addSingleBoundary,
@@ -242,7 +243,7 @@ function addLine(line: string, status: any) {
     }
 }
 
-export function createMapByXMindMark(raw = "Central Topic"): any {
+export function createMapByXMindMark(raw = "Central Topic"): SheetModel {
     const lines = raw.trim().split("\n")
 
     let centralTopic = lines.shift()?.trim() || "Central Topic"

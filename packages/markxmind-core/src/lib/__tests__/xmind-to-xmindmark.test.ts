@@ -15,6 +15,6 @@ describe("XMindMark: form .xmind file", () => {
 
     it("can convert .xmind file to XMindMark content", async () => {
         const output = await parseXMindToXMindMarkFile(sampleFile)
-        expect(output).equal(expectedOutputXMindMark)
+        expect(output).toBe(expectedOutputXMindMark)
     })
 })

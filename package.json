@@ -1,14 +1,17 @@
 {
   "name": "markxmind",
+  "workspaces": [
+    "packages/*"
+  ],
   "description": "Create XMind mind maps with Markdown online, export as .xmind/.md/.png/.svg in one click.",
   "version": "0.2.0",
   "type": "module",
   "scripts": {
-    "serve": "vite",
-    "build": "vite build",
+    "serve": "npm run build -w @markxmind/markxmind-core && vite",
+    "build": "npm run build -w @markxmind/markxmind-core && vite build",
     "preview": "vite preview",
-    "test": "vitest",
-    "test:watch": "vitest --watch",
+    "test": "npm run test -w @markxmind/markxmind-core",
+    "test:watch": "npm run test:watch -w @markxmind/markxmind-core",
     "format": "prettier --write .",
     "prepare": "husky"
   },
@@ -37,7 +40,7 @@
     "vitest": "^3.1.3"
   },
   "dependencies": {
-    "jszip": "^3.10.1"
+    "@markxmind/markxmind-core": "workspace:*"
   },
   "optionalDependencies": {
     "@rollup/rollup-darwin-x64": "^4.40.2",

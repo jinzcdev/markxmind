@@ -31,6 +31,9 @@ export type SheetModel = {
     rootTopic: TopicModel
     topicPositioning: string
     relationships?: RelationshipModel[]
+    theme?: any
+    extensions?: any
+    [key: string]: any
 }
 
 export type RangeDifinition = `(${number},${number})`

@@ -60,7 +60,6 @@ function xmindMarkFrom({
         const indent = makeIndentOfLine(scope)
         const prefix = makePrefixOfLine(scope)
         const typeIdentifier = makeTypeIdentifierOfLine(scope)
-        const label = makeLabelOfLine(scope)
         const title = makeTitleOfLine(scope)
         const extensionIdentifier = makeExtensionIdentifierOfLine(scope)
 
@@ -217,12 +216,6 @@ function makeTypeIdentifierOfLine({ type, id, summaries }: TopicScope): string {
     }
 
     return ""
-}
-
-function makeLabelOfLine({ labels }: TopicScope): string {
-    return labels.length > 0
-        ? `[${labels.map((v) => v.trim()).join(", ")}]`
-        : ""
 }
 
 function makeTitleOfLine({ title }: TopicScope): string {
