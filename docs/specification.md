@@ -222,20 +222,74 @@ Central Topic
     - subtopic 2 [B]
 ```
 
-# Advanced usage
+## Hyperlinks
 
-### Perform multiple marker symbol at one topic
+**_Syntax: `[L:url]` - This marker symbol adds a hyperlink to a topic._**
 
-Every marker symbol of topic must be placed after topic content without any spaces. Like:
+Add a hyperlink to a topic by appending `[L:url]` after the topic content. The URL should be placed inside the brackets without any spaces between `L:` and the URL.
 
 ```
+Central Topic
 
-Seasons of 2021
-
-- Spring [1]
-- Summer [B1]
-- Autumn [B1][^1](Cool)[S1]
-- Winter [S1]
+- Topic with hyperlink [L:https://example.com]
+- Another topic
 ```
 
-In the example above, "Summer" and "Autumn" will be wrapped by a boundary, "Autumn" and "Winter" will be wrapped by a summary topic, a relationship will connected "Spring" and "Autumn" with title: "Cool".
+Hyperlinks can be combined with other markers:
+
+```
+Central Topic
+
+- Topic with hyperlink and boundary [L:https://example.com][B]
+```
+
+## Notes
+
+**_Syntax: `[N:content]` - This marker symbol adds text notes to a topic._**
+
+Add text notes to a topic by appending `[N:content]` after the topic content. The note content should be placed inside the brackets without any spaces between `N:` and the content.
+
+```
+Central Topic
+
+- Topic with a note [N:This is an important note]
+- Another topic
+```
+
+Notes currently only support plain text content. Complex formatted content or HTML is not supported in the note content.
+
+Notes can be combined with other markers:
+
+```
+Central Topic
+
+- Topic with note and summary [N:Remember this detail][S]
+```
+
+## Folded Topics
+
+**_Syntax: `[F]` - This marker symbol makes a topic appear folded._**
+
+Make a topic appear folded (collapsed) by appending `[F]` after the topic content.
+
+```
+Central Topic
+
+- Folded topic with subtopics [F]
+    * Subtopic 1
+    * Subtopic 2
+```
+
+This is particularly useful for complex mind maps where you want certain branches to be initially collapsed for better readability.
+
+Folding can be combined with other markers:
+
+```
+Central Topic
+
+- Folded topic with boundary [F][B]
+    * Subtopic 1
+    * Subtopic 2
+```
+
+

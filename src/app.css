@@ -123,6 +123,16 @@ small {
     transition: all 0.2s ease;
 }
 
+.npm-link {
+    display: flex;
+    align-items: center;
+    opacity: 0.9;
+}
+
+.npm-link:hover {
+    opacity: 1;
+}
+
 .github-stars {
     display: flex;
 }
@@ -286,11 +296,50 @@ body.dark-mode .mode-toggle .icon-moon {
     box-shadow: 0 4px 8px rgba(84, 110, 122, 0.3);
 }
 
-.instruction {
+.instruction-row {
+    display: flex;
+    align-items: center;
+    gap: 12px;
     margin-bottom: 12px;
+    flex-wrap: wrap;
+}
+
+.instruction {
     color: var(--text-color);
     font-size: 16px;
     opacity: 0.8;
+}
+
+.example-segment {
+    display: inline-flex;
+    border: 1px solid var(--border-color);
+    border-radius: 6px;
+    overflow: hidden;
+    background: var(--panel-bg);
+}
+
+.example-segment-btn {
+    padding: 4px 10px;
+    font-size: 13px;
+    font-weight: 500;
+    border: none;
+    border-right: 1px solid var(--border-color);
+    background: transparent;
+    color: var(--text-color);
+    cursor: pointer;
+    transition: background-color 0.2s ease;
+}
+
+.example-segment-btn:last-child {
+    border-right: none;
+}
+
+.example-segment-btn:hover {
+    background: var(--button-hover-bg);
+}
+
+.example-segment-btn:active {
+    background: var(--border-color);
 }
 
 .editor-container {

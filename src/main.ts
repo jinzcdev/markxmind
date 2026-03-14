@@ -1,9 +1,29 @@
 import { parseXMindMarkToXMindFile } from "@markxmind/markxmind-core"
-import { defaultXMindMark } from "./common/constant"
+import { defaultXMindMark, defaultXMindMarkForCN } from "./common/constant"
 import { downloadFile, loadFileAsText } from "./loader"
 import { exportMapToImage, renderMapByString, updateMapTheme } from "./map"
 
+const EDITOR_STORAGE_KEY = "markxmind-editor-content"
+
 let openedFileName: string = ""
+
+function getStoredEditorContent(): string {
+    try {
+        const stored = localStorage.getItem(EDITOR_STORAGE_KEY)
+        if (stored != null && stored.length > 0) return stored
+    } catch {
+        /* ignore */
+    }
+    return defaultXMindMark
+}
+
+function saveEditorContent(content: string) {
+    try {
+        localStorage.setItem(EDITOR_STORAGE_KEY, content)
+    } catch {
+        /* ignore */
+    }
+}
 
 function initRenderEngine() {
     const result = document.getElementById("result") as HTMLDivElement
@@ -29,9 +49,10 @@ function initEditor() {
 
     window.addEventListener("load", () => {
         const isDarkMode = document.body.classList.contains("dark-mode")
+        const initialValue = getStoredEditorContent()
 
         globalThis.editor = globalThis.monaco.editor.create(input, {
-            value: defaultXMindMark,
+            value: initialValue,
             language: "markdown",
             wordWrap: "off",
             minimap: { enabled: false },
@@ -44,6 +65,15 @@ function initEditor() {
             // hide vertical line of ruler
             overviewRulerBorder: false,
             theme: isDarkMode ? "vs-dark" : "vs"
+        })
+
+        let saveTimeout: ReturnType<typeof setTimeout>
+        globalThis.editor.onDidChangeModelContent(() => {
+            clearTimeout(saveTimeout)
+            saveTimeout = setTimeout(() => {
+                const content = globalThis.editor?.getValue() ?? ""
+                saveEditorContent(content)
+            }, 500)
         })
 
         input.classList.remove("loading")
@@ -205,10 +235,28 @@ function initView() {
 
             const result = await loadFileAsText(file)
             globalThis.editor.setValue(result)
+            saveEditorContent(result)
             renderMapByString(result)
             input.classList.remove("loading")
             fileSelect.files = null
         }
+    })
+
+    const loadExampleEn = document.getElementById(
+        "load-example-en"
+    ) as HTMLButtonElement
+    const loadExampleCn = document.getElementById(
+        "load-example-cn"
+    ) as HTMLButtonElement
+    loadExampleEn?.addEventListener("click", () => {
+        globalThis.editor?.setValue(defaultXMindMark)
+        saveEditorContent(defaultXMindMark)
+        renderMapByString(defaultXMindMark)
+    })
+    loadExampleCn?.addEventListener("click", () => {
+        globalThis.editor?.setValue(defaultXMindMarkForCN)
+        saveEditorContent(defaultXMindMarkForCN)
+        renderMapByString(defaultXMindMarkForCN)
     })
 
     convertToXMind.addEventListener("click", async () => {

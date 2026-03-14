@@ -67,7 +67,33 @@ XMindMark Syntax Guide
         - Relationships can connect to boundary or summary titles
 [B] Advanced Syntax
 
-- Notes [S]
+- Hyperlinks Syntax
+    * Syntax
+        - Use [L:url] to add hyperlink to topic
+        - Example: GitHub Website [L:https://github.com]
+    * Usage
+        - Can be applied to any topic including central topic
+        - Can be combined with other markers
+
+- Notes Syntax
+    * Syntax
+        - Use [N:content] to add notes to topic
+        - Example: Meeting Topic [N:Remember to prepare slides]
+    * Limitations
+        - Only supports plain text, no complex formatting
+        - Cannot contain nested markers
+
+- Folded Topics Syntax
+    * Syntax
+        - Use [F] to make a topic appear folded
+        - Example: Project Details [F]
+            - Subtopic 1
+            - Subtopic 2
+    * Behavior
+        - Child topics will be hidden by default in the mind map
+        - Useful for large mind maps with many branches
+
+- Usage Tips [S]
     * Marker Rules
         - Markers must directly follow topic content (no spaces)
         - Numbers can be non-consecutive

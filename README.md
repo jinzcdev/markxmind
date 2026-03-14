@@ -72,7 +72,7 @@ npm run build
 
 XMindMark syntax is similar to Markdown, using indentation and special symbols to represent the hierarchical structure and relationships of elements in the mind map.
 
-#### Basic Syntax Example:
+#### Basic Syntax Example
 
 ```
 Central Topic
@@ -85,11 +85,14 @@ Central Topic
         - Subsubtopic 2.1.1
 ```
 
-#### Special Features:
+#### Advanced Syntax
 
 - **Relationships**: Use `[number]` and `[^number]` to create connections between topics
 - **Boundaries**: Use `[B]` or `[Bnumber]` to create boundaries
 - **Summaries**: Use `[S]` or `[Snumber]` to create summaries
+- **Hyperlinks**: Use `[L:url]` to add hyperlinks to topics
+- **Notes**: Use `[N:content]` to add text notes to topics
+- **Folding**: Use `[F]` to make topics appear folded
 
 For detailed syntax, please refer to:
 
